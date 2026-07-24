@@ -1,0 +1,240 @@
+% bibliography.bib - NRDAX taxonomy paper
+%
+% Every entry was resolved against its source on 2026-07-24. Citation discipline:
+%   - Academic prior art: full entry with DOI where one exists
+%   - Frameworks (ATT&CK, AADAPT, CWE): @misc with the canonical MITRE URL
+%   - CVEs: @misc with the NVD URL as the durable record
+%   - Registry records: cited inline by NRDAX-T identifier, resolvable at
+%     https://nrdax.com/techniques/<id>; not duplicated here
+%
+% No entry in this file is a pointer to an internal document. Everything a reader
+% is asked to consult is publicly retrievable.
+
+% =====================================================================
+% Frameworks
+% =====================================================================
+
+@misc{mitre-attack,
+  author       = {{MITRE}},
+  title        = {{MITRE ATT\&CK}},
+  howpublished = {\url{https://attack.mitre.org/}},
+  year         = {2026},
+  note         = {Enterprise, cloud, ICS and mobile adversary behaviour model.
+                  Endpoint Denial of Service is T1499
+                  (\url{https://attack.mitre.org/techniques/T1499/});
+                  Network Denial of Service is T1498. Accessed 2026-07-24.}
+}
+
+@misc{mitre-aadapt,
+  author       = {{MITRE}},
+  title        = {{AADAPT}: Adversarial Actions in Digital Asset Payment Technologies},
+  howpublished = {\url{https://github.com/mitre/AADAPT}},
+  year         = {2025},
+  note         = {ATT\&CK-styled threat framework for digital asset systems,
+                  released July 2025 and built from more than 150 government,
+                  industry and academic sources. Overview at
+                  \url{https://www.mitre.org/news-insights/fact-sheet/aadapt-cyber-threat-framework-digital-assets}.
+                  NRDAX pins revision cd6a74ca, retrieved 2025-10-31.}
+}
+
+@misc{cwe-400,
+  author       = {{MITRE}},
+  title        = {{CWE-400}: Uncontrolled Resource Consumption},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/400.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+@misc{cwe-405,
+  author       = {{MITRE}},
+  title        = {{CWE-405}: Asymmetric Resource Consumption (Amplification)},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/405.html}},
+  year         = {2026},
+  note         = {Child of CWE-400. The closest existing weakness class to the
+                  asymmetry this paper uses to define its scope. Accessed 2026-07-24.}
+}
+
+@misc{cwe-770,
+  author       = {{MITRE}},
+  title        = {{CWE-770}: Allocation of Resources Without Limits or Throttling},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/770.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+@misc{cwe-617,
+  author       = {{MITRE}},
+  title        = {{CWE-617}: Reachable Assertion},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/617.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+@misc{cwe-248,
+  author       = {{MITRE}},
+  title        = {{CWE-248}: Uncaught Exception},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/248.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+@misc{cwe-369,
+  author       = {{MITRE}},
+  title        = {{CWE-369}: Divide By Zero},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/369.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+@misc{cwe-129,
+  author       = {{MITRE}},
+  title        = {{CWE-129}: Improper Validation of Array Index},
+  howpublished = {\url{https://cwe.mitre.org/data/definitions/129.html}},
+  year         = {2026},
+  note         = {Accessed 2026-07-24.}
+}
+
+% =====================================================================
+% Prior art: surveys and taxonomies
+% =====================================================================
+
+@article{saad2020attacksurface,
+  author  = {Saad, Muhammad and Spaulding, Jeffrey and Njilla, Laurent and
+             Kamhoua, Charles and Shetty, Sachin and Nyang, DaeHun and
+             Mohaisen, David},
+  title   = {Exploring the Attack Surface of Blockchain: A Comprehensive Survey},
+  journal = {IEEE Communications Surveys \& Tutorials},
+  volume  = {22},
+  number  = {3},
+  pages   = {1977--2008},
+  year    = {2020},
+  doi     = {10.1109/COMST.2020.2975999},
+  url     = {https://doi.org/10.1109/COMST.2020.2975999}
+}
+
+@article{chen2020ethereumsecurity,
+  author  = {Chen, Huashan and Pendleton, Marcus and Njilla, Laurent and
+             Xu, Shouhuai},
+  title   = {A Survey on Ethereum Systems Security: Vulnerabilities, Attacks,
+             and Defenses},
+  journal = {ACM Computing Surveys},
+  volume  = {53},
+  number  = {3},
+  articleno = {67},
+  pages   = {1--43},
+  year    = {2020},
+  doi     = {10.1145/3391195},
+  url     = {https://doi.org/10.1145/3391195}
+}
+
+@misc{zhang2026dos,
+  author       = {Zhang, Chunyi and Dou, Fengjiao and Li, Xiaoqi},
+  title        = {{DoS} Attacks and Defense Technologies in Blockchain Systems:
+                  A Hierarchical Analysis},
+  year         = {2026},
+  eprint       = {2507.22611},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CR},
+  url          = {https://arxiv.org/abs/2507.22611},
+  note         = {Submitted July 2025, revised January 2026. Organises DoS
+                  attacks by blockchain architecture hierarchy, with emphasis
+                  on the contract and consensus layers.}
+}
+
+@inproceedings{heilman2015eclipse,
+  author    = {Heilman, Ethan and Kendler, Alison and Zohar, Aviv and
+               Goldberg, Sharon},
+  title     = {Eclipse Attacks on {Bitcoin's} Peer-to-Peer Network},
+  booktitle = {24th USENIX Security Symposium (USENIX Security 15)},
+  pages     = {129--144},
+  year      = {2015},
+  publisher = {USENIX Association},
+  url       = {https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/heilman}
+}
+
+% =====================================================================
+% Instrumentation analysis motivating the scope argument (section 2.3)
+% =====================================================================
+
+@misc{nullrabbit2026blindspot,
+  author       = {{NullRabbit}},
+  title        = {What syscall-layer tooling cannot see in {P2P} infrastructure:
+                  a technique-by-technique analysis},
+  year         = {2026},
+  howpublished = {\url{https://nullrabbit.ai/research/why-syscall-tooling-cannot-see-p2p-infrastructure}},
+  note         = {Accessed 2026-07-24.}
+}
+
+% =====================================================================
+% CVEs cited in the text. Each is also an external reference on the
+% corresponding NRDAX instance, where the reproduction is recorded.
+% =====================================================================
+
+@misc{cve-2013-5700,
+  title        = {{CVE-2013-5700}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2013-5700}},
+  year         = {2013},
+  note         = {Bitcoin Core: empty BIP37 bloom filter reaches a modulo in
+                  CBloomFilter::Hash(). NRDAX-T0013.}
+}
+
+@misc{cve-2015-3641,
+  title        = {{CVE-2015-3641}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2015-3641}},
+  year         = {2015},
+  note         = {Header length field pre-allocates the receive buffer before
+                  the body arrives. NRDAX-T0106.}
+}
+
+@misc{cve-2023-33297,
+  title        = {{CVE-2023-33297}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2023-33297}},
+  year         = {2023},
+  note         = {NVD describes this as CPU consumption from inefficient
+                  draining of the inventory-to-send queue (CWE-400), exploited
+                  in the wild May 2023. The NRDAX reproduction (NRDAX-T0345)
+                  measured the egress effect, in excess of 100 MB/s of upload,
+                  and classifies it response\_amp on that basis. The two
+                  readings are of the same defect; where they differ this paper
+                  cites the reproduction as its own evidence and NVD as the
+                  disclosure.}
+}
+
+@misc{cve-2024-22189,
+  title        = {{CVE-2024-22189}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2024-22189}},
+  year         = {2024},
+  note         = {quic-go: NEW\_CONNECTION\_ID flood into unbounded storage on
+                  an established connection. NRDAX-T0321.}
+}
+
+@misc{cve-2024-52919,
+  title        = {{CVE-2024-52919}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2024-52919}},
+  year         = {2024},
+  note         = {addr flood overflows a 32-bit CAddrMan counter into an
+                  assertion abort. NRDAX-T0001.}
+}
+
+@misc{cve-2025-46598,
+  title        = {{CVE-2025-46598}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2025-46598}},
+  year         = {2025},
+  note         = {Quadratic legacy-sighash validation cost with no peer
+                  penalty. NRDAX-T0139. NVD classifies it CWE-405 (Asymmetric
+                  Resource Consumption), which is the weakness class closest to
+                  the scope definition in section 2.}
+}
+
+@misc{cve-2025-47200,
+  title        = {{CVE-2025-47200}},
+  howpublished = {\url{https://nvd.nist.gov/vuln/detail/CVE-2025-47200}},
+  year         = {2025},
+  note         = {RESERVED in NVD as of 2026-07-24: the identifier is assigned
+                  but no public record is available, so this reference does not
+                  currently resolve to a description. The resolvable record for
+                  the mechanism is the registry entry NRDAX-T0349
+                  (\url{https://nrdax.com/techniques/NRDAX-T0349}). QUIC Source
+                  Connection IDs crafted to collide in an unseeded server hash
+                  table.}
+}

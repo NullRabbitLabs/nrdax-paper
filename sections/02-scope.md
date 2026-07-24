@@ -23,11 +23,17 @@ class is about code, not about consensus rules.
 
 **Network-reachable, and generally unauthenticated.** The input
 arrives over the network from a party the node has not
-authenticated, or has authenticated only as a peer. Of the 97
-classified techniques, all but one are reachable by an
-unauthenticated remote party; the exception, `NRDAX-T0398`, is an
-exposed control-plane service that should have required
-authentication and did not.
+authenticated, or has authenticated only as a peer. Peer
+authentication does not remove a technique from the class: a
+completed handshake makes the sender a peer, not a trusted one,
+and several techniques in the corpus are post-handshake.
+
+We do not put a number on how many are strictly pre-authentication,
+because the registry does not record reachability as a field and
+we will not report a figure we cannot show. What the registry does
+record is the bound-failure mode, and the 7 techniques marked
+`late` (section 3.2.2) are by definition those where the cost is
+paid before the check that could have rejected the input.
 
 **Disproportionate.** There is an asymmetry between what the
 attacker spends and what the node spends. Volumetric flooding,
@@ -106,15 +112,24 @@ structured evidence from which taxonomies are usually built.
 
 The specific instrumentation gap is analysed technique by
 technique in *What syscall-layer tooling cannot see in P2P
-infrastructure* [NullRabbit 2026], and we do not restate it here.
-The consequence for this paper is what matters: for a substantial
-part of this class, the observable signal is in protocol state
-that the host kernel never sees. A node exhausting a per-peer
-reassembly buffer, a QPACK decoder returning flow-control credit
-it should not, an admission cap keyed on a value the attacker
-chooses - none of these produce a distinctive syscall trace, and
-several produce no host-level anomaly at all until the node is
-already failing.
+infrastructure* [NullRabbit 2026], and we do not restate the
+analysis here. Its result is what matters for this paper. Taking
+five techniques from this corpus - pre-authentication handshake
+CPU burn (`NRDAX-T0205`), HTTP/2 rapid reset (`NRDAX-T0112`),
+gRPC/HTTP2 multiplexing OOM (`NRDAX-T0097`), mempool
+pending-eviction flood (`NRDAX-T0156`) and unbounded response
+amplification (`NRDAX-T0329`) - it finds that **none of the five
+can be expressed as a syscall-layer detection rule**, for three
+structural reasons: the rule language cannot aggregate events over
+a time window, resource cost has no observable field, and the
+discriminating frame-level facts are unparsed and frequently
+encrypted.
+
+Five techniques is a small sample and the brief does not claim
+otherwise. But the three reasons it identifies are properties of
+the instrumentation boundary rather than of those five cases,
+which is why we treat the gap as characteristic of the class
+rather than incidental to it.
 
 Two consequences follow for how this registry is built.
 

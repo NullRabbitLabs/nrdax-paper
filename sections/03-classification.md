@@ -536,23 +536,49 @@ residual bucket that existed for no other purpose. Twenty per cent
 of the classified corpus shares a mechanism, and a defender
 reading the old taxonomy could not have discovered that.
 
-**Mixed axes (13 techniques).** Three of the old families were
-defined by entry surface (`gossip_abuse`, `consensus_abuse`,
-`state_import_abuse`) and three by a guard rather than a resource
-(`auth_bypass`, `rate_limiter_bypass`, `service_misconfig`). The
-surface-defined ones admitted anything arriving on that surface,
-whatever the mechanism: `gossip_abuse` held members in R1, R2, R3
-and R5. The guard-defined ones held exactly one technique each,
-which is what happens when a category sits on a different axis
-from everything around it: nothing can join it without leaving its
-own resource class. A bypass is a meta-mechanism, so it is now a
-`bound_failure` value and each technique is filed by what the
-bypass yields. `NRDAX-T0396` (h2c multiplexing rate-limit bypass)
-is B2 on the limiter and `compute_amp` in what it delivers.
+The other 18 moves divide as follows.
 
-**Corrections within the resource axis (5 techniques).** The three
-egress techniques above, plus `NRDAX-T0408` and `NRDAX-T0328`
-swapping places.
+**Out of a surface-defined family (6 techniques).** Three of the
+old families were defined by entry surface: `gossip_abuse`,
+`consensus_abuse` and `state_import_abuse`. A surface-defined
+family admits anything arriving on that surface, whatever the
+mechanism, and `gossip_abuse` duly held members in R1, R2, R3 and
+R5. Its survivors dispersed accordingly: `NRDAX-T0188` to
+`compute_amp`, `NRDAX-T0192` and `NRDAX-T0199` to `memory_amp`,
+`NRDAX-T0326` to `connection_exhaustion`. From `consensus_abuse`,
+`NRDAX-T0143` and `NRDAX-T0207` are both pre-validation gossip
+work and both became `compute_amp`. (These 6 are the survivors;
+the rest of those families went to `fault_termination` above or
+out of scope below.)
+
+**Out of a guard-defined family (2 techniques).** Three old
+families named a bypassed guard rather than a resource:
+`auth_bypass`, `rate_limiter_bypass` and `service_misconfig`. Each
+held exactly one technique, which is what happens when a category
+sits on a different axis from everything around it - nothing can
+join it without leaving its own resource class. A bypass is a
+meta-mechanism, so it is now a `bound_failure` value and the
+technique is filed by what the bypass yields: `NRDAX-T0396` (h2c
+multiplexing rate-limit bypass) is B2 on the limiter and
+`compute_amp` in what it delivers; `NRDAX-T0398` is `compute_amp`
+behind absent admission control. The third, `NRDAX-T0317`, left
+scope entirely.
+
+**Out of a surface-qualified singleton (1 technique).**
+`NRDAX-T0248` moves from `subscription_cpu_amp` to `compute_amp`
+with `surface = rpc-api`, which is all that label ever meant.
+`rpc_handler_cpu`, the other such singleton, is retired by its
+only member moving to `fault_termination`.
+
+**Corrections within the resource axis (9 techniques).** The
+substantive ones: `NRDAX-T0124`, `NRDAX-T0182` and `NRDAX-T0280`
+from `memory_amp` to `response_amp` (section 3.6);
+`NRDAX-T0100` and `NRDAX-T0206` from `connection_exhaustion` to
+`compute_amp`, joining `NRDAX-T0205`; `NRDAX-T0408` and
+`NRDAX-T0328` swapping places between `memory_amp` and
+`compute_amp`; plus `NRDAX-T0088` and `NRDAX-T0369`. These are the
+moves that cannot be blamed on a mixed axis: the old label named a
+resource, and it named the wrong one.
 
 **Out of the class entirely (14 techniques).** Reproduced,
 published, but their harm is consensus divergence
@@ -596,6 +622,6 @@ directly.
 What the reclassification does establish is that the criteria in
 3.1 have teeth. They were sharp enough to find a mechanism class
 that 22 techniques shared and no label named, six categories that
-were not mechanisms at all, five misfiled resource assignments,
+were not mechanisms at all, nine misfiled resource assignments,
 and fourteen records outside the declared class - in a corpus that
 had been assembled, published and served without them.

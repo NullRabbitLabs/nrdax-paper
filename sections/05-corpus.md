@@ -105,7 +105,7 @@ the defect, and a reader must be able to tell which is which
 without inferring it.
 
 The registry makes this checkable per technique rather than only
-in aggregate: `discovery_origin` is on every instance, and 258
+in aggregate: `discovery_origin` is on every instance, and 358
 external references (150 CVE, 152 vendor advisory, 56 GHSA) point
 at the original disclosures. Where a technique is original
 research it says so, and where it reproduces someone else's

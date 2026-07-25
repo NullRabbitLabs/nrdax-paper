@@ -122,7 +122,7 @@ Populations are the live registry as of 2026-07-24: 97 classified techniques.
 
 **Representative techniques.**
 
-- `NRDAX-T0205` pre-handshake-crypto-cpu-burn (B3): reproduced across nine targets - eight independent chains (Bitcoin, Cosmos, Conflux, XRP, Casper, ICON, Qtum, Polygon PoS) plus libp2p. The widest cross-implementation spread in the corpus, and the strongest single piece of evidence that the mechanism axis generalises.
+- `NRDAX-T0205` pre-handshake-crypto-cpu-burn (B3): reproduced across nine targets: eight independent chains (Bitcoin, Cosmos, Conflux, XRP, Casper, ICON, Qtum, Polygon PoS) plus libp2p. Eight chains, not nine - the ninth target is a shared library, and section 6 counts it separately for exactly that reason. The widest cross-implementation spread in the corpus, and the strongest single piece of evidence that the mechanism axis generalises.
 - `NRDAX-T0139` legacy-sighash-quadratic-cpu-blowup (B1): many legacy-sighash inputs give quadratic validation cost with no peer penalty (CVE-2025-46598).
 - `NRDAX-T0384` http2-continuation-frame-flood (B2): the header-list guard is size-based, so zero-length CONTINUATION frames never trip it and no count limit exists.
 - `NRDAX-T0349` unseeded-hash-collision-dos (B1): QUIC Source Connection IDs crafted to collide in the server's unseeded hash table (CVE-2025-47200).

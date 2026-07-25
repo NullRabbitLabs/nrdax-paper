@@ -22,11 +22,11 @@ Three levels, often conflated in vulnerability catalogues, kept separate here.
 
 A **technique** is the mechanism, stated independently of any implementation: *an unauthenticated peer forces asymmetric public-key work before admission control*. It is what carries the identifier and what the taxonomy classifies. It has no chain, no version and no CVE of its own.
 
-An **instance** is that mechanism realised against one target: `NRDAX-T0205` on Bitcoin, on Cosmos, on XRP, on libp2p, and on five more. Each instance records its target, its fidelity, its discovery origin, and any external references specific to it. An instance is where a CVE attaches, because CVEs are assigned to implementations, not to mechanisms.
+An **instance** is that mechanism realised against one target: `NRDAX-T0205` on Bitcoin, Cosmos, Conflux, XRP, Polygon PoS, Casper, ICON and Qtum, and on libp2p. Each instance records its target, its fidelity, its discovery origin, and any external references specific to it. An instance is where a CVE attaches, because CVEs are assigned to implementations, not to mechanisms.
 
 A **primitive** is the executable artefact that produced an instance: the reproduction itself, identified by `primitive_id` and a `bundle_ref` pointing at its captured evidence. Primitives are the layer below publication, produced by a separate pipeline; the registry references them so a claim can be traced to what produced it.
 
-The three-level split is what lets one mechanism carry evidence from nine implementations without collapsing into nine unrelated records, and it is what section 6's argument rests on. It also explains an asymmetry a reader will notice: 97 techniques carry 199 instances, so most techniques have one or two and a few have many.
+The three-level split is what lets one mechanism carry evidence from nine targets - eight chain implementations and one shared library - without collapsing into nine unrelated records, and it is what section 6's argument rests on. Section 6 keeps chains and shared substrates apart when it counts recurrence, because a mechanism reaching two chains that both embed libp2p is weaker evidence than one reaching two chains that share no code. It also explains an asymmetry a reader will notice: 97 techniques carry 199 instances, so most techniques have one or two and a few have many.
 
 ## 4.3 Reproduced versus known
 
@@ -42,6 +42,8 @@ Reproduction and classification are not the same count, and the difference matte
 | of those, in scope and reproduced | 104 |
 | of those, carrying a mechanism family | 97 |
 | of those, reproduced and in scope but not yet classified | 7 |
+
+The 14 in that table are the tombstoned techniques that were *reproduced*. Section 4.1 counts 31 tombstoned identifiers in total: the other 17 were never reproduced and so sit inside the 302 without an instance. Both figures are correct and they measure different things.
 
 The rule is one-directional: **classification requires reproduction, but not every reproduction is classified**. The registry enforces the implication it can - a classification for a technique with no instance fails the build - and reports the remainder as a gap rather than closing it.
 

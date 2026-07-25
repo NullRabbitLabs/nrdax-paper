@@ -6,7 +6,11 @@ All figures in this section were read from the live registry at `https://api.nrd
 
 Most catalogues of node-level denial-of-service group findings by one of two things. Either by **target**, which produces families like "P2P attacks", "RPC attacks", "consensus attacks", or by **symptom**, which produces families like "memory exhaustion", "CPU exhaustion", "crash". Both groupings are stable and easy to apply, and neither supports the inference the class actually needs: given a technique observed against one implementation, which other implementations are exposed, and what property of their code decides it.
 
-Target-defined families fail this because the same defect appears behind different entry points. Symptom-defined families fail it because the same symptom is reached by unrelated routes. A node that exhausts memory because a length prefix pre-allocates a receive buffer (`NRDAX-T0106`) and a node that exhausts memory because a header-size guard counts encoded rather than decoded bytes (`NRDAX-T0383`) share an outcome and share nothing that would let a reader predict the second from the first. The fix classes differ, the affected code differs, and the set of exposed implementations differs.
+Target-defined families fail this because the same defect appears behind different entry points: `NRDAX-T0205` and `NRDAX-T0100` are one mechanism reached over two different transports, and any grouping by entry point separates them.
+
+Symptom-defined families fail it because the same symptom is reached by unrelated routes. A node that exhausts memory because a length prefix pre-allocates a receive buffer (`NRDAX-T0106`) and a node that exhausts memory because a header-size guard counts encoded rather than decoded bytes (`NRDAX-T0383`) share an outcome and share little that would let a reader predict the second from the first: the fix classes differ, the affected code differs, and the set of exposed implementations differs.
+
+Those two are worth keeping in view, because they are *not* separated by the classification this paper presents either. Both are `memory_amp`. What separates them is the second axis: `NRDAX-T0106` is a missing bound and `NRDAX-T0383` a bound that counts the wrong quantity. That is the whole reason the mechanism is defined as a pair rather than as a resource, and section 3.2 sets out the consequence for what a family is and is not.
 
 We therefore require a family to satisfy four tests.
 
@@ -29,7 +33,20 @@ Neither half is sufficient. The resource alone is the symptom, and grouping by i
 
 The registry serves both halves on every technique, as `family` and `bound_failure`.
 
-### 3.2.1 The resource axis
+### 3.2.1 What a family is, and what carries the mechanism
+
+One consequence needs stating plainly, because the rest of the section depends on it and because it is easy to overclaim.
+
+**The family is the resource axis alone.** A mechanism is the *cell*: a (resource, bound-failure) pair such as (R2, B3). There are five families and, in principle, twenty-five cells, of which the corpus populates rather fewer. So `family` is a coarser unit than the mechanism, and a family groups several mechanisms that share what they exhaust.
+
+This is a deliberate trade and not an oversight. The resource axis is what an operator loses and what a reader navigates by, so it makes the better label and the better URL; the cell is what predicts exposure elsewhere. The registry therefore serves both, and the two claims in this paper divide accordingly:
+
+- Claims about **navigation and coverage** are family-level: 33 `memory_amp` techniques, five families, the coverage matrix.
+- Claims about **cross-implementation recurrence** are cell-level. Section 6's central result is the (`compute_amp`, `late`) cell across 18 targets, not `compute_amp` as a whole - `compute_amp` also contains quadratic sighash validation and an unseeded hash table, which predict nothing about each other.
+
+Read `family` as a navigation layer over cells. Where this paper says a family "carries an audit question", the question is inherited from the bound-failure mode, so a family with members in three bound-failure modes carries three, one per cell it populates.
+
+### 3.2.2 The resource axis
 
 Five resource classes cover the corpus. The first four are exhaustion proper, in which the attacker's cost accumulates in the victim; the fifth is availability loss with no accumulation at all.
 
@@ -45,7 +62,7 @@ Five resource classes cover the corpus. The first four are exhaustion proper, in
 
 R5 sits alongside the exhaustion classes rather than inside them because it inverts their economics. Defences that work against R1 through R4, which are fundamentally about rate limits, quotas, and admission control, do not work against R5 at all, because there is no rate to limit. Conversely a bug that faults on a malformed field is invisible to capacity planning.
 
-### 3.2.2 The bound failure axis
+### 3.2.3 The bound failure axis
 
 Five bound failure modes account for the corpus. B1 through B4 are the modes by which an existing or absent limit fails to contain an accumulating cost; B5 is the mode in which no limit is relevant. Registry values are given in brackets.
 
@@ -63,7 +80,7 @@ These five audit questions are the concrete discharge of test 2. A family that i
 
 The registry enforces the one implication that holds between the axes: `fault_termination` always carries `absent-invariant`, and `absent-invariant` never appears on any other family. Nothing accumulates in R5, so there is no bound that could have failed in any other way.
 
-### 3.2.3 The surface axis is not the family axis
+### 3.2.4 The surface axis is not the family axis
 
 Where the input arrives matters operationally: it determines who can reach the defect and what mitigations are available at the perimeter. The registry records it, as an attribute, over five values: **P2P and gossip** (50 techniques), **RPC and public API** (24), **consensus ingest** (21), **sync and state import** (1), and **control plane** (1).
 
@@ -73,13 +90,15 @@ Before this classification the three were split across two families, because the
 
 ## 3.3 The families
 
-Five mechanism families, each a region of the (resource, bound failure) space. Populations are the live registry as of 2026-07-24: 97 classified techniques.
+Five mechanism families, each a row of the (resource, bound failure) grid: a family fixes the resource and spans whatever bound-failure modes the corpus populates. The bound-failure modes listed against each family below are **the cells currently occupied, not a rule about which are possible**. B4 (mis-scoped) appears only under R3 in this corpus, but nothing forbids a mis-scoped bound on a retention resource; it simply has not been reproduced yet. `fault_termination` is the one genuine restriction, and it is definitional rather than empirical: R5 involves no accumulation, so B5 is the only mode available to it.
+
+Populations are the live registry as of 2026-07-24: 97 classified techniques.
 
 ---
 
 ### 3.3.1 memory_amp (33 techniques)
 
-**Mechanism.** (R1, B1|B2|B3). Attacker input causes the node to allocate memory or storage it does not release, at a cost to the attacker far below the cost to the node.
+**Mechanism.** (R1, B1|B2|B3 as populated). Attacker input causes the node to allocate memory or storage it does not release, at a cost to the attacker far below the cost to the node.
 
 **Discriminating criterion.** The cost **survives the request**. If the allocation is freed when processing completes and the harm is the rate of re-allocation, the technique is `compute_amp`. The test is whether an attacker who stops sending leaves the node degraded: for R1, yes.
 
@@ -97,7 +116,7 @@ Five mechanism families, each a region of the (resource, bound failure) space. P
 
 ### 3.3.2 compute_amp (24 techniques)
 
-**Mechanism.** (R2, B1|B2|B3). Attacker input causes computation disproportionate to the cost of sending it.
+**Mechanism.** (R2, B1|B2|B3 as populated). Attacker input causes computation disproportionate to the cost of sending it.
 
 **Discriminating criterion.** The cost is **spent and released**. The node recovers fully when the input stops. Against `memory_amp` the test is the survival test above; against `response_amp` the test is whether the disproportion is in cycles or in emitted bytes.
 
@@ -136,7 +155,7 @@ Five mechanism families, each a region of the (resource, bound failure) space. P
 
 ### 3.3.4 connection_exhaustion (13 techniques)
 
-**Mechanism.** (R3, B1|B4). The attacker occupies a bounded count of accept-side slots, denying entry to legitimate peers.
+**Mechanism.** (R3, B1|B4 as populated). The attacker occupies a bounded count of accept-side slots, denying entry to legitimate peers.
 
 **Discriminating criterion.** The scarce quantity is a **count of admissions**, and the harm is exclusion rather than degradation. A node fully exhausted in this sense may show normal CPU and memory and still serve nobody.
 
@@ -153,7 +172,7 @@ Five mechanism families, each a region of the (resource, bound failure) space. P
 
 ### 3.3.5 response_amp (5 techniques)
 
-**Mechanism.** (R4, B1|B2|B3). The node emits response traffic disproportionate to the request that provoked it.
+**Mechanism.** (R4, B1|B2|B3 as populated). The node emits response traffic disproportionate to the request that provoked it.
 
 **Discriminating criterion.** The disproportion is measured in **bytes leaving the node**. Where the request is spoofable and the protocol is connectionless, the node becomes a reflector and the victim is a third party; where it is not, the victim is the node's own uplink. Both are R4.
 

@@ -60,7 +60,7 @@ The relationship is a division of labour, not a rivalry, and it is worth stating
 
 The `fault_termination` family makes the division concrete. CWE-617 (Reachable Assertion), CWE-248 (Uncaught Exception), CWE-369 (Divide By Zero) and CWE-129 (Improper Validation of Array Index) each name a defect. `fault_termination` names the property that an *unauthenticated remote peer can reach that defect with a single message and remove a node from the network*. The same CWE-129 defect behind an authenticated interface is not a member of the family. One defect class, two attack outcomes, and it is the attack outcome a defender prioritises on.
 
-NRDAX's second axis is where the two frameworks come closest. `bound_failure` (section 3.2.2) is defect-flavoured: `no-bound` is close to CWE-770, and `mis-quantified`, `late` and `mis-scoped` are refinements of "a limit exists but does not apply" that CWE does not currently distinguish. We regard that as a contribution to be checked rather than claimed: whether those four modes are the right decomposition is exactly the kind of thing external review should test, and section 8 records that no such review has happened.
+NRDAX's second axis is where the two frameworks come closest. `bound_failure` (section 3.2.3) is defect-flavoured: `no-bound` is close to CWE-770, and `mis-quantified`, `late` and `mis-scoped` are refinements of "a limit exists but does not apply" that CWE does not currently distinguish. We regard that as a contribution to be checked rather than claimed: whether those four modes are the right decomposition is exactly the kind of thing external review should test, and section 8 records that no such review has happened.
 
 ## 7.5 Summary of the position
 

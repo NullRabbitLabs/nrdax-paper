@@ -51,7 +51,7 @@ Those six members were previously distributed across **four different producer f
 
 A per-project CVE list represents `NRDAX-T0100` as nine unrelated advisories, each against one project, disclosed at different times by different reporters. Nothing in that representation says the nine are the same thing, and nothing in it tells the tenth project to look.
 
-The mechanism representation makes the query expressible. The family carries the audit question (section 3.2.2): for (`compute_amp`, `late`), *what work happens before the first check that could reject the input?* That question is implementation- independent, and it is what turns nine advisories into one thing to check everywhere.
+The mechanism representation makes the query expressible. The cell carries the audit question, inherited from its bound-failure mode (section 3.2.3): for (`compute_amp`, `late`), *what work happens before the first check that could reject the input?* That question is implementation- independent, and it is what turns nine advisories into one thing to check everywhere.
 
 We can state one concrete instance of this working, and we state it narrowly. `NRDAX-T0206` (RLPx pre-authentication packet flood) and the libp2p instance of `NRDAX-T0205` were examined because the mechanism had already been characterised elsewhere in the corpus, not because an advisory pointed at them. That is the mechanism axis doing the work it is supposed to do. It is also a small number of cases, and section 8 declines to generalise from it.
 

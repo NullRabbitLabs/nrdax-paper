@@ -12,7 +12,7 @@ Three parts of that definition do the work.
 
 **Network-reachable, and generally unauthenticated.** The input arrives over the network from a party the node has not authenticated, or has authenticated only as a peer. Peer authentication does not remove a technique from the class: a completed handshake makes the sender a peer, not a trusted one, and several techniques in the corpus are post-handshake.
 
-We do not put a number on how many are strictly pre-authentication, because the registry does not record reachability as a field and we will not report a figure we cannot show. What the registry does record is the bound-failure mode, and the 7 techniques marked `late` (section 3.2.2) are by definition those where the cost is paid before the check that could have rejected the input.
+We do not put a number on how many are strictly pre-authentication, because the registry does not record reachability as a field and we will not report a figure we cannot show. What the registry does record is the bound-failure mode, and the 7 techniques marked `late` (section 3.2.3) are by definition those where the cost is paid before the check that could have rejected the input.
 
 **Disproportionate.** There is an asymmetry between what the attacker spends and what the node spends. Volumetric flooding, where the attacker simply out-sends the victim's link, is out. Section 3.2 develops the asymmetry into the mechanism definition.
 
@@ -64,6 +64,6 @@ Used consistently throughout, and defined against the registry's own model in se
 
 **Family.** A region of the mechanism space; the classification a technique is published under. Five of them, section 3.3.
 
-**Surface.** Where the attacker's input enters the node. An attribute, never a family; section 3.2.3 says why.
+**Surface.** Where the attacker's input enters the node. An attribute, never a family; section 3.2.4 says why.
 
 **Reproduced** and **known**. A reproduced technique has at least one instance captured in a controlled environment. A known technique is recorded from a public advisory with no reproduction on file. The distinction governs what may be claimed about a technique and, in this registry, whether it may be classified at all: 97 techniques are classified, 323 are not, and the boundary between those two numbers is reproduction (section 3.5).

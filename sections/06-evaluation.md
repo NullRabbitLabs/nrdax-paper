@@ -25,7 +25,7 @@ Separating them:
 
 **Sixteen techniques recur across independent chain implementations with no shared substrate in the instance set at all.** These are the cases where the same mechanism was reproduced against separately-written codebases, and they are what the claim rests on. Not one multi-target technique is confined to shared substrates, so no part of the recurrence result is an artefact of counting one library twice.
 
-The strongest individual cases:
+The strongest individual cases. Read the columns carefully: "targets" is chains plus substrates, so `NRDAX-T0205` at nine targets is eight chains and libp2p, whereas `NRDAX-T0100` at nine targets is nine chains and nothing shared. The distinction is the whole point of the table.
 
 | Technique | Family | Chains | Substrates | Targets |
 |---|---|---:|---:|---:|

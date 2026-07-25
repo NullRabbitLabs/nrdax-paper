@@ -201,13 +201,36 @@ Where a technique satisfies more than one definition, the following rules decide
 
 ## 3.5 Coverage and what is not classified
 
-Of 420 published techniques, 97 carry a mechanism family and 323 do not. The registry serves the unclassified ones as `family: null` with `classification: "pending"`, and never infers a mechanism from any other field. The 323 divide into two groups.
+Of 420 published techniques, 97 carry a mechanism family and 323 do not. The registry serves the unclassified ones as `family: null` with `classification: "pending"`, and never infers a mechanism from any other field. The 323 divide into three groups, not two:
 
-**309 are known-but-not-reproduced.** They enter the registry from a public advisory naming a defect in a node implementation, with no reproduction on file. A mechanism is read off a reproduction: what a technique exhausts, and which bound failed, are observed during the reproduction and not restated from the advisory text. Without one there is no mechanism evidence to classify on, so these carry only the producing pipeline's coarse class (`network-p2p`, `network-rpc`, `consensus` and six others). The registry enforces this: a classification for a technique with no instance fails the build. This is what "grounded in reproduction rather than report" means operationally, and it is the reason the classified corpus is a fifth of the published one.
+| | Techniques |
+|---|---:|
+| Known but not reproduced, in scope | 285 |
+| of those, with a CVE, GHSA or advisory reference on file | 92 |
+| of those, with no reference on file at all | 193 |
+| Tombstoned as out of class (section 2.2) | 31 |
+| of those, reproduced | 14 |
+| of those, never reproduced | 17 |
+| **Reproduced, in scope, and not yet classified** | **7** |
+| **Total unclassified** | **323** |
 
-**14 are out of scope**, and section 3.7 covers them.
+**The 285 are known but not reproduced.** They enter the registry from a public advisory naming a defect in a node implementation, with no reproduction on file. A mechanism is read off a reproduction: what a technique exhausts, and which bound failed, are observed during the reproduction and not restated from the advisory text. Without one there is no mechanism evidence to classify on, so these carry only the producing pipeline's coarse class (`network-p2p`, `network-rpc`, `consensus` and six others). The registry enforces the implication: a classification for a technique with no instance fails the build. This is what "grounded in reproduction rather than report" means operationally, and it is the reason the classified corpus is under a quarter of the published one.
 
-We report the gap as a number rather than closing it by mapping the coarse classes onto mechanism families. Such a map would be mechanical and, for the surface-defined labels, silently wrong, which is the failure this classification exists to correct.
+That 193 of the 285 carry no reference at all is a separate weakness, and section 8.4 treats it as one: a record asserting that a defect exists, without a resolvable pointer to the disclosure that motivated it, is a weak record.
+
+**The 31 are tombstoned**, and section 3.7 covers them. They carry no mechanism family because they are outside the class the taxonomy classifies, which is a category error rather than a gap.
+
+### 3.5.1 The seven that should be classified and are not
+
+The remaining 7 are the awkward ones, and they are worth naming rather than folding into a total. `NRDAX-T0009`, `NRDAX-T0096`, `NRDAX-T0110`, `NRDAX-T0111`, `NRDAX-T0332`, `NRDAX-T0338` and `NRDAX-T0381` each have a reproduced instance, each sit inside the declared scope, and none carries a mechanism family. By this paper's own rule they are classifiable, and they are not classified.
+
+The cause is procedural. Each arrived from the producing pipeline under a coarse class label (`network-rpc`, `network-p2p`, `consensus`) rather than a fine-grained one, and the reclassification reported in section 3.7 examined the 111 techniques carrying fine-grained labels. These 7 were never in the slice. Nothing about their evidence prevents assignment; we simply did not look at them.
+
+The clearest illustration sits in adjacent identifiers. `NRDAX-T0112` (http2-rapid-reset-stream-exhaustion) is `memory_amp`. `NRDAX-T0111` (http2-rapid-reset-memory-exhaustion) is the same defect class against the same protocol and is unclassified, because one arrived under a fine-grained label and the other under `network-p2p`. A reader who opens two consecutive technique pages finds this, and should: it is an accurate picture of a registry whose classification is complete over the slice it examined and not over the corpus.
+
+We report it rather than quietly classifying the 7 into this paper's figures, because the figures throughout describe the registry as served on 2026-07-24. Closing this gap is the first item of future work and requires no new evidence.
+
+We report the rest of the gap as a number rather than closing it by mapping the coarse classes onto mechanism families. Such a map would be mechanical and, for the surface-defined labels, silently wrong, which is the failure this classification exists to correct.
 
 ## 3.6 Worked boundary cases
 
@@ -254,7 +277,7 @@ They are tombstoned rather than removed, following the same precedent as the eco
 
 ### 3.7.1 What this supports, and what it does not
 
-The mechanism axis classified every one of the 97 in-scope techniques in the slice it examined, without extension; resolved every boundary case in 3.6 by a written rule; and produced cross-implementation groupings that no per-project CVE list produces: `NRDAX-T0205` across nine targets, `NRDAX-T0320` across seven, `NRDAX-T0106` across four. Section 6 develops those groupings.
+The mechanism axis classified every one of the 97 in-scope techniques in the slice it examined, without extension; resolved every boundary case in 3.6 by a written rule; and produced cross-implementation groupings that no per-project CVE list produces: `NRDAX-T0205` across nine targets (eight chains plus libp2p), `NRDAX-T0320` across seven (five chains plus QUIC and libp2p), `NRDAX-T0106` across four (three chains plus libp2p). Section 6 develops those groupings.
 
 It does not support a claim of settled coverage. Three quarters of the published registry carries no mechanism family, overwhelmingly because it has not been reproduced - though 7 reproduced, in-scope techniques are unclassified through oversight rather than absent evidence (section 4.3). Five families is a small taxonomy, and a corpus five times the size would likely need more. Thirteen techniques could not be resolved to a single family at all and are marked dual. And the classification is one team's reading of its own reproductions, which section 8 addresses directly.
 

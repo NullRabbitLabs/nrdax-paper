@@ -66,7 +66,9 @@ The 14 original-research techniques are a small fraction, and we do not build an
 
 The public dashboard's "reproduced" counter shows 104, which is 118 less the 14 tombstoned: it counts in-scope reproduced techniques, whereas this paper's headline 97 counts classified ones. Both are correct for what they measure.
 
-The 97 classified techniques carry **199 instances across 37 distinct targets**: 33 independent chain implementations and 4 shared substrates (QUIC, HTTP/2, HTTP/3, libp2p). Section 6 keeps these apart, because a mechanism recurring across independent chains and a mechanism recurring inside one shared library are different evidence.
+The 97 classified techniques carry **199 instances across 37 distinct targets**: 33 independent chain implementations and 4 shared substrates (QUIC, HTTP/2, HTTP/3, libp2p).
+
+The public dashboard reports 38, which is the count across all 118 reproduced techniques rather than the 97 classified ones. The extra target is IPFS, reached only by `NRDAX-T0050` (DHT Sybil content censorship), which is tombstoned as out of class. As with the 97/104/118 counts above, both figures are right for what they measure. Section 6 keeps these apart, because a mechanism recurring across independent chains and a mechanism recurring inside one shared library are different evidence.
 
 Coverage across targets is uneven, and the shape matters more than the total:
 

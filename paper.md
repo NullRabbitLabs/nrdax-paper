@@ -10,73 +10,15 @@
 
 # Abstract
 
-Node implementations of decentralised protocols face a class of
-attack that is well documented case by case and unclassified as a
-class: a small or malformed input from an unauthenticated peer
-forcing disproportionate consumption of memory, CPU, admission
-capacity or egress bandwidth, or an unrecoverable fault.
-Pre-authentication cryptographic burn, protocol-frame exhaustion,
-mempool abuse, response amplification, one-packet panics. Existing
-frameworks do not cover it. MITRE ATT&CK offers five values for
-the entire outcome, at the layer of organisational impact. MITRE
-AADAPT covers the adjacent digital-asset domain and, on the
-crosswalk we publish and measure, shares **zero techniques with
-our mechanism-classified corpus**. The survey literature,
-including the nearest DoS-specific taxonomy, organises by
-architectural layer and concentrates on the contract and consensus
-layers, which this class sits below. CVE identifies
-implementations; CWE classifies defects. The mechanism, which is
-the only level at which a finding against one implementation says
-anything about the next, is indexed nowhere.
+Node implementations of decentralised protocols face a class of attack that is well documented case by case and unclassified as a class: a small or malformed input from an unauthenticated peer forcing disproportionate consumption of memory, CPU, admission capacity or egress bandwidth, or an unrecoverable fault. Pre-authentication cryptographic burn, protocol-frame exhaustion, mempool abuse, response amplification, one-packet panics. Existing frameworks do not cover it. MITRE ATT&CK offers five values for the entire outcome, at the layer of organisational impact. MITRE AADAPT covers the adjacent digital-asset domain and, on the crosswalk we publish and measure, shares **zero techniques with our mechanism-classified corpus**. The survey literature, including the nearest DoS-specific taxonomy, organises by architectural layer and concentrates on the contract and consensus layers, which this class sits below. CVE identifies implementations; CWE classifies defects. The mechanism, which is the only level at which a finding against one implementation says anything about the next, is indexed nowhere.
 
-We present NRDAX, a chain-agnostic registry that classifies by
-mechanism, where a mechanism is a pair: **the resource the node
-spends disproportionately, and the way its bound on that resource
-failed to apply**. Five resource classes and five bound-failure
-modes yield five families, each carrying a concrete audit question
-that transfers to a codebase never examined. The distinction from
-symptom-based grouping is measurable rather than rhetorical:
-applying these criteria to 97 reproduced techniques previously
-published under a 13-label scheme moved 40 of them. Twenty-two
-shared a mechanism the old vocabulary had no name for, scattered
-across seven labels; six labels turned out not to be mechanisms at
-all, three naming an entry surface and three a bypassed guard; and
-fourteen records fell outside the class entirely and were
-tombstoned. That reclassification is live, so every figure in this
-paper can be checked against the running registry.
+We present NRDAX, a chain-agnostic registry that classifies by mechanism, where a mechanism is a pair: **the resource the node spends disproportionately, and the way its bound on that resource failed to apply**. The two axes are not symmetric in how they are used: the five resource classes name the families, and the five bound-failure modes are recorded as a second attribute within them, so a family is a row of the 5x5 grid rather than a cell. Each bound-failure mode carries a concrete audit question that transfers to a codebase never examined. The distinction from symptom-based grouping is measurable rather than rhetorical: applying these criteria to 97 reproduced techniques previously published under a 13-label scheme moved 40 of them. Twenty-two shared a mechanism the old vocabulary had no name for, scattered across seven labels; six labels turned out not to be mechanisms at all, three naming an entry surface and three a bypassed guard; and fourteen records fell outside the class entirely and were tombstoned. That reclassification is live, so every figure in this paper can be checked against the running registry.
 
-Classification is gated on reproduction: 97 of 420 published
-techniques carry a mechanism family, each with captured evidence
-from a controlled environment, across 199 instances and 37
-targets. The remaining 323 are served with an explicit `pending`
-state and no inferred family. Identifiers are opaque, stable and
-never reused, with family as an attribute rather than a component,
-which is what allowed 40 techniques to change family without
-breaking a citation. The registry is served as JSON, STIX 2.1 and
-JSON-LD, designed to be ingested rather than read.
+Classification is gated on reproduction, though the gate is one-directional: of 420 published techniques 118 carry a reproduced instance and 97 carry a mechanism family, each of the 97 with captured evidence from a controlled environment, across 199 instances and 37 targets. The difference is 14 tombstoned as out of class and 7 reproduced but not yet classified. The remaining 323 are served with an explicit `pending` state and no inferred family. Identifiers are opaque, stable and never reused, with family as an attribute rather than a component, which is what allowed 40 techniques to change family without breaking a citation. The registry is served as JSON, STIX 2.1 and JSON-LD, designed to be ingested rather than read.
 
-As evidence that the classification does work, sixteen mechanisms
-recur across independently written chain implementations with no
-shared library in the instance set; one technique has reproduced
-instances against nine separate chains, and a single mechanism
-cell accounts for exposure across eighteen targets - a grouping
-that was invisible before the reclassification, because its six
-members sat in four different families.
+As evidence that the classification does work, sixteen mechanisms recur across independently written chain implementations with no shared library in the instance set; one technique has reproduced instances against nine separate chains, and a single mechanism cell accounts for exposure across eighteen targets - a grouping that was invisible before the reclassification, because its six members sat in four different families.
 
-We state the limits directly. The corpus is lab fidelity (198 of
-199 instances); nothing here is evidence about production impact.
-Seventy-four per cent of classified techniques are reproductions
-of publicly disclosed CVEs rather than discoveries. Coverage is
-uneven enough that an empty cell in the coverage matrix means "not
-examined" far more often than "not exposed", which confounds the
-recurrence result in the flattering direction, so we report
-recurrence as an existence claim and not a rate. The
-classification is one team's judgement with no external review or
-inter-rater measurement, and thirteen techniques could not be
-resolved to a single family. No detection capability is claimed:
-companion work applying machine learning to this class reported
-its central cross-chain transfer claim as falsified at a
-pre-registered gate, and that negative result stands unrevised.
+We state the limits directly. The corpus is lab fidelity (198 of 199 instances); nothing here is evidence about production impact. Seventy-four per cent of classified techniques are reproductions of publicly disclosed CVEs rather than discoveries. Coverage is uneven enough that an empty cell in the coverage matrix means "not examined" far more often than "not exposed", which confounds the recurrence result in the flattering direction, so we report recurrence as an existence claim and not a rate. The classification is one team's judgement with no external review or inter-rater measurement, and thirteen techniques could not be resolved to a single family. No detection capability is claimed: companion work applying machine learning to this class reported its central cross-chain transfer claim as falsified at a pre-registered gate, and that negative result stands unrevised.
 
 ---
 
@@ -94,25 +36,17 @@ pre-registered gate, and that negative result stands unrevised.
 
 References: [bibliography.bib](bibliography.bib)
 
-Supporting data: [`data/`](data/) - the per-technique mechanism
-assignment (`mechanism-audit.csv`, `classification.py`) and the
-registry snapshot the figures were computed from
-(`registry-snapshot-2026-07-24.json`).
+Supporting data: [`data/`](data/) - the per-technique mechanism assignment (`mechanism-audit.csv`, `classification.py`) and the registry snapshot the figures were computed from (`registry-snapshot-2026-07-24.json`).
 
 ---
 
 ## Reproducing the figures
 
-Every number in this paper derives from two requests against the
-live registry:
+Every number in this paper derives from two requests against the live registry:
 
 ```
 curl 'https://api.nrdax.com/v1/techniques?limit=500'
 curl 'https://api.nrdax.com/v1/aadapt?limit=500'
 ```
 
-Classified techniques are those with `classification: "curated"`.
-The mechanism family is `family`; the producing pipeline's own
-label is `producer_family`; the two are never merged. Section 9.3
-gives the details, including the chain-versus-substrate split used
-in section 6.
+Classified techniques are those with `classification: "curated"`. The mechanism family is `family`; the producing pipeline's own label is `producer_family`; the two are never merged. Section 9.3 gives the details, including the chain-versus-substrate split used in section 6.

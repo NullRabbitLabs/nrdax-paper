@@ -123,9 +123,9 @@ Populations are the live registry as of 2026-07-24: 97 classified techniques.
 **Representative techniques.**
 
 - `NRDAX-T0205` pre-handshake-crypto-cpu-burn (B3): reproduced across nine targets: eight independent chains (Bitcoin, Cosmos, Conflux, XRP, Casper, ICON, Qtum, Polygon PoS) plus libp2p. Eight chains, not nine - the ninth target is a shared library, and section 6 counts it separately for exactly that reason. The widest cross-implementation spread in the corpus, and the strongest single piece of evidence that the mechanism axis generalises.
-- `NRDAX-T0139` legacy-sighash-quadratic-cpu-blowup (B1): many legacy-sighash inputs give quadratic validation cost with no peer penalty (CVE-2025-46598).
+- `NRDAX-T0139` legacy-sighash-quadratic-cpu-blowup (B1): many legacy-sighash inputs give quadratic validation cost with no peer penalty (CVE-2025-46598 \cite{cve-2025-46598}).
 - `NRDAX-T0384` http2-continuation-frame-flood (B2): the header-list guard is size-based, so zero-length CONTINUATION frames never trip it and no count limit exists.
-- `NRDAX-T0349` unseeded-hash-collision-dos (B1): QUIC Source Connection IDs crafted to collide in the server's unseeded hash table (CVE-2025-47200).
+- `NRDAX-T0349` unseeded-hash-collision-dos (B1): QUIC Source Connection IDs crafted to collide in the server's unseeded hash table (CVE-2025-47200 \cite{cve-2025-47200}).
 - `NRDAX-T0389` precompile-gas-underpricing-cpu-burn (B2): the BLAKE2F `rounds` field is charged flat per round against a cost that is not flat.
 
 **Boundary.** Against R5: `NRDAX-T0166` (Move verifier fixpoint non-termination) and `NRDAX-T0394` (connection-ID retirement infinite loop) end in an unresponsive node, which resembles a crash. They remain R2 because the node process is intact and the condition is in principle recoverable by killing the work item. A technique is R5 only when the process itself ends or enters an unrecoverable state.
@@ -141,13 +141,13 @@ Populations are the live registry as of 2026-07-24: 97 classified techniques.
 **Representative techniques**, spanning the range of unchecked assumption:
 
 - **Unchecked index.** `NRDAX-T0401` (boundary-check-off-by-one-index-oob-panic): a proposal-ingest path bounds-checks an attacker-supplied `signer` slot index with a strict `>` against the validator-set size. Reproduced on Cosmos and Nimiq.
-- **Zero divisor.** `NRDAX-T0013` (bloom-filter-divide-by-zero-crash): an empty BIP37 bloom filter reaches a modulo in `CBloomFilter::Hash()` (CVE-2013-5700). `NRDAX-T0165` is the same shape in `x/group` `PercentageDecisionPolicy.Allow` with no `totalPower == 0` guard.
+- **Zero divisor.** `NRDAX-T0013` (bloom-filter-divide-by-zero-crash): an empty BIP37 bloom filter reaches a modulo in `CBloomFilter::Hash()` (CVE-2013-5700 \cite{cve-2013-5700}). `NRDAX-T0165` is the same shape in `x/group` `PercentageDecisionPolicy.Allow` with no `totalPower == 0` guard.
 - **Type or encoding assumption.** `NRDAX-T0392` (invalid-utf8-decode-panic): a QUIC CONNECTION_CLOSE reason phrase is opaque bytes per RFC 9000 section 19.19, and is decoded directly into a Rust `str`. `NRDAX-T0417` is a malformed RLP field length in the conflux-rust light protocol.
 - **Integer width.** `NRDAX-T0407` (signature-count-integer-overflow-panic): `Tx::verify_signatures` counts public keys with a u8-width counter.
 - **Uninitialised state.** `NRDAX-T0399`: the libp2p AutoNAT v2 server never initialises its per-peer rate-limiter map before use, and any well-formed inbound `DialRequest` panics on it.
 - **Reachable assertion.** `NRDAX-T0024` (compact-block-fillblock-duplicate-crash): `FillBlock` called twice, assertion, node exit.
 
-**Relationship to CWE.** It is easy to mistake this family for a CWE re-labelling, and the distinction matters. CWE-617 (Reachable Assertion), CWE-248 (Uncaught Exception), CWE-369 (Divide By Zero) and CWE-129 (Improper Validation of Array Index) each name the **defect**. `fault_termination` names the **attack**: the property that an unauthenticated remote peer can reach that defect with one message and remove a node from the network. The same CWE-129 defect behind an authenticated administrative interface is not a member. Section 7 develops this.
+**Relationship to CWE.** It is easy to mistake this family for a CWE re-labelling, and the distinction matters. CWE-617 (Reachable Assertion) \cite{cwe-617}, CWE-248 (Uncaught Exception) \cite{cwe-248}, CWE-369 (Divide By Zero) \cite{cwe-369} and CWE-129 (Improper Validation of Array Index) \cite{cwe-129} each name the **defect**. `fault_termination` names the **attack**: the property that an unauthenticated remote peer can reach that defect with one message and remove a node from the network. The same CWE-129 defect behind an authenticated administrative interface is not a member. Section 7 develops this.
 
 **Boundary.** Against the exhaustion families, rule 1 of the assignment procedure governs: termination dominates. `NRDAX-T0001` (an `addr` flood overflowing a 32-bit `nIdCount` to an assertion abort) accumulates first and terminates second, and is R5, because rate-limiting `addr` leaves the assertion reachable.
 
@@ -179,7 +179,7 @@ Populations are the live registry as of 2026-07-24: 97 classified techniques.
 **Representative techniques.**
 
 - `NRDAX-T0280` spoofed-endpoint-proof-bypass-amplification (B3): discv4 FINDNODE-to-NEIGHBORS reflection, the textbook connectionless amplifier, with the endpoint proof checked after the reply is emitted.
-- `NRDAX-T0345` unrated-getheaders-response-flood (B1): un-rate-limited `getheaders` producing in excess of 100 MB/s of upload (CVE-2023-33297).
+- `NRDAX-T0345` unrated-getheaders-response-flood (B1): un-rate-limited `getheaders` producing in excess of 100 MB/s of upload (CVE-2023-33297 \cite{cve-2023-33297}).
 - `NRDAX-T0329` unbounded-rpc-response-amplification (B1): batched account-lookup RPC with no response-size accounting, reproduced across seven chains.
 - `NRDAX-T0182` optimistic-ack-congestion-window-manipulation (B1): optimistic ACKs drive the victim's own send rate up. The node is made to spend its egress against itself.
 

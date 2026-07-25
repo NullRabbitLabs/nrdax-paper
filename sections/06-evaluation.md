@@ -2,30 +2,61 @@
 
 A taxonomy is not evaluated by whether it is tidy. It is evaluated by whether it supports an inference that its absence does not. The inference this one claims is:
 
-> A mechanism observed against one node implementation predicts exposure in other, independent implementations.
+> A mechanism observed against one node implementation predicts exposure in other implementations.
 
 If that holds, the classification does work no per-project CVE list can do, because a per-project list has no representation for "the same mechanism, elsewhere". If it does not hold, the families are a filing convention.
 
 Section 6.1 reports the evidence. Section 6.2 reports what we consider the more informative half of it: where the evidence does not extend.
 
-## 6.1 The same mechanism recurs across independent implementations
+## 6.1 The same mechanism recurs across independent deployments
 
 Of the 97 classified techniques, **23 carry instances against more than one target** and 74 against exactly one. The 23 span 2 to 9 targets each.
 
-The raw count is not the interesting number, because "target" conflates two different things. The corpus spans 37 targets: 33 independent chain implementations, and 4 shared substrates (QUIC, HTTP/2, HTTP/3, libp2p) that chains embed as libraries. A mechanism recurring across two chains that both use libp2p may be one library defect reached twice. A mechanism recurring across two chains with no shared code is a different and much stronger claim.
+The raw count is not the interesting number, because a mechanism reproduced against two chains that embed the same networking library may be one library defect reached twice. What the argument needs is recurrence across implementations that do not share the relevant code.
 
-Separating them:
+We report two levels, and the gap between them is the finding.
+
+### 6.1.1 Level one: distinct chain deployments
+
+The first level is what the registry's own target field supports. Of the 23 multi-target techniques, 16 have no shared substrate recorded as a target, 7 span both chains and a substrate, and none is confined to substrates.
 
 | Recurrence pattern | Techniques |
 |---|---:|
-| Across independent chains only, no shared substrate | 16 |
-| Spanning both independent chains and a shared substrate | 7 |
-| Within shared substrates only | 0 |
+| Across chain deployments only, no substrate recorded as a target | 16 |
+| Spanning both chain deployments and a recorded substrate | 7 |
+| Within recorded substrates only | 0 |
 | **Total multi-target** | **23** |
 
-**Sixteen techniques recur across independent chain implementations with no shared substrate in the instance set at all.** These are the cases where the same mechanism was reproduced against separately-written codebases, and they are what the claim rests on. Not one multi-target technique is confined to shared substrates, so no part of the recurrence result is an artefact of counting one library twice.
+**This is a weaker result than it looks, and the earlier drafts of this paper overstated it.** The test asks whether a shared substrate appears in the *target* field. It does not ask whether the chains reached that substrate through an embedded dependency, and a chain that vendors libp2p is recorded under its own name, not under libp2p. So "no shared substrate recorded" does not mean "no shared code", and the 16 must not be read as sixteen independent implementations.
 
-The strongest individual cases. Read the columns carefully: "targets" is chains plus substrates, so `NRDAX-T0205` at nine targets is eight chains and libp2p, whereas `NRDAX-T0100` at nine targets is nine chains and nothing shared. The distinction is the whole point of the table.
+### 6.1.2 Level two: independent protocol stacks, worked for the headline case
+
+`NRDAX-T0100` was presented in earlier drafts as the strongest single result: nine chains, no shared substrate, therefore nine separately-written implementations. That claim was wrong, and the registry's own data refutes it. The primitive identifiers name the handshake stack each instance was reproduced against:
+
+| Handshake stack | Deployments |
+|---|---|
+| RLPx / devp2p (go-ethereum lineage) | BNB Smart Chain, Polygon PoS, Sonic/Fantom |
+| libp2p Noise | Celestia, Ethereum consensus layer, Filecoin, Optimism |
+| litep2p Noise (Rust reimplementation) | Polkadot/Substrate |
+| Solana TPU QUIC | Solana |
+
+Nine chain deployments over **four handshake stacks**, and arguably three if litep2p is treated as a libp2p reimplementation rather than an independent one. Three of the nine share go-ethereum's RLPx handshake; four share libp2p's Noise handshake. The recurrence is substantially explained by shared code, which is precisely the confound section 6.1.1 sets up and which the earlier claim failed to control for.
+
+What survives is still worth stating, and it is a different claim: **the same mechanism appears in four independently written handshake implementations** - RLPx, libp2p Noise, litep2p Noise and Solana's TPU QUIC path - which were written in different languages by different teams and share no handshake code between the four groups. Four is a real result for a mechanism that admits an obvious defence. Nine was not.
+
+It also has a sharper defensive reading than the inflated version did. Where recurrence is stack-level, the fix is stack-level: patching libp2p's Noise handshake protects every embedder at once, and the registry's job is to say which mechanism affects which stack, not to imply nine independent bugs where there are four.
+
+### 6.1.3 Why we cannot do this corpus-wide
+
+The stack analysis above was done by hand, reading the primitive identifiers. **The registry does not record implementation lineage.** An instance carries a chain, a primitive id, a bundle reference, a fidelity and a discovery origin; nothing states which networking stack the target embeds. The primitive naming convention happens to make `NRDAX-T0100` legible, and does not for most techniques: of `NRDAX-T0205`'s nine instances, seven carry primitive ids that name no stack at all.
+
+So we can report a corrected figure for the headline case and we cannot report one for the corpus. The honest position is:
+
+- **23 techniques recur across more than one chain deployment.** This is measured and stands.
+- **The number that recur across independent protocol stacks is unknown and is smaller than 23.** For the one case we worked, nine deployments reduced to four stacks.
+- Adding a lineage field to the instance schema is the obvious remedy and has not been done. Section 8 records it.
+
+The strongest individual cases by deployment count, with the same caveat applying to every row:
 
 | Technique | Family | Chains | Substrates | Targets |
 |---|---|---:|---:|---:|
@@ -39,23 +70,17 @@ The strongest individual cases. Read the columns carefully: "targets" is chains 
 | `NRDAX-T0006` async-runtime-blocking-vm-execution | `compute_amp` | 4 | 0 | 4 |
 | `NRDAX-T0106` header-length-preallocation-oom | `memory_amp` | 3 | 1 | 4 |
 
-`NRDAX-T0100` is the clearest single result: nine independent chain implementations, zero shared substrates. BNB Smart Chain, Celestia, the Ethereum consensus layer, Filecoin, Optimism, Polkadot/Substrate, Polygon PoS, Solana and Sonic/Fantom each perform per-handshake asymmetric cryptography before any admission decision. These are separately-written node implementations in different languages by different teams, and the recurrence is not explained by shared code. It is explained by a shared design pressure: a handshake must do cryptography, and admission control is easier to write after the handshake than before it.
+The "Chains" column counts chain deployments, not independent implementations. `NRDAX-T0100`'s nine chains are four stacks; the others have not been worked.
 
-Together with `NRDAX-T0205` (Bitcoin Core, Cosmos, Conflux, XRP, Casper, ICON, Qtum, Polygon PoS, and libp2p) and `NRDAX-T0206` (RLPx, on Ethereum), those three pre-authentication handshake techniques account for reproduced exposure across **18 distinct targets**.
+### 6.1.4 What this does for a defender that a CVE list does not
 
-The mechanism cell they belong to, (`compute_amp`, `late`), is wider than the handshake case. It has six members, and the other three generalise it past the handshake to any check that runs after the cost: `NRDAX-T0143` and `NRDAX-T0207` are gossip processed before signature verification, and `NRDAX-T0408` is `ValidateBasic` running in `CheckTx` ahead of the antehandler. The cell's audit question - *what work happens before the first check that could reject the input?* - covers all six, and the six between them span 18 targets.
-
-Those six members were previously distributed across **four different producer families** (`compute_amp`, `connection_exhaustion`, `consensus_abuse` and `memory_amp`), because the old labels mixed a mechanism axis with a surface axis: the handshake ones looked like connection problems and the gossip ones looked like consensus problems. The cell is the paper's central example precisely because it was not visible in the registry at all until the reclassification in section 3.7.
-
-### 6.1.1 What this does for a defender that a CVE list does not
-
-A per-project CVE list represents `NRDAX-T0100` as nine unrelated advisories, each against one project, disclosed at different times by different reporters. Nothing in that representation says the nine are the same thing, and nothing in it tells the tenth project to look.
+A per-project CVE list represents `NRDAX-T0100` as nine unrelated advisories, each against one project. Nothing in that representation says the nine are the same thing, that four stacks underlie them, or which other embedders of those stacks to check.
 
 The mechanism representation makes the query expressible. The cell carries the audit question, inherited from its bound-failure mode (section 3.2.3): for (`compute_amp`, `late`), *what work happens before the first check that could reject the input?* That question is implementation- independent, and it is what turns nine advisories into one thing to check everywhere.
 
 We can state one concrete instance of this working, and we state it narrowly. `NRDAX-T0206` (RLPx pre-authentication packet flood) and the libp2p instance of `NRDAX-T0205` were examined because the mechanism had already been characterised elsewhere in the corpus, not because an advisory pointed at them. That is the mechanism axis doing the work it is supposed to do. It is also a small number of cases, and section 8 declines to generalise from it.
 
-### 6.1.2 Recurrence is uneven across families
+### 6.1.5 Recurrence is uneven across families
 
 | Family | Multi-target | Total | Rate |
 |---|---:|---:|---:|
@@ -77,7 +102,7 @@ The coverage matrix is technique by target, with a cell where a reproduced insta
 
 This is the confound that limits section 6.1, and it runs in the direction that flatters the result. A technique reproduced on nine chains was *pursued* across nine chains, generally because an early instance suggested it would generalise. A technique with one instance may be equally general and simply never followed up. So the 23 multi-target techniques are better read as *23 mechanisms we checked and found to recur* than as *23 of 97 mechanisms that recur*, and the 74 single-target techniques carry almost no information about generality either way.
 
-What survives the confound is the existence claim, which is the one section 6 actually needs: **for at least 16 mechanisms, the same mechanism demonstrably works against multiple independently written implementations, with captured evidence per instance.** That is enough to establish that mechanism-level recurrence in this class is real and worth indexing. It is not enough to establish how common it is, and we do not claim a rate.
+What survives is an existence claim, and a narrower one than earlier drafts made: **23 mechanisms demonstrably work against more than one chain deployment, with captured evidence per instance, and at least one of them works against four independently written implementations of the same protocol step.** That is enough to establish that mechanism-level recurrence in this class is real and worth indexing. It is not enough to establish how common it is, nor how much of it is stack-level rather than implementation-level, and we claim neither.
 
 Two further limits on the matrix, stated here and developed in section 8:
 

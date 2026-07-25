@@ -24,11 +24,21 @@ The 199 instances are distributed across 37 targets, but not evenly: the top fiv
 
 The practical consequence is stated in section 6.2 and repeated here because it is the most likely way for this registry to be misread: **an empty cell in the coverage matrix is overwhelmingly "we did not look", not "not exposed".** Nobody should infer that an implementation is safe from a mechanism because the matrix has no cell for it.
 
-The same skew confounds section 6's recurrence result in the flattering direction. Multi-target techniques are largely techniques that were *pursued* across targets. We therefore report recurrence as an existence result (at least 16 mechanisms demonstrably recur across independent implementations) and explicitly decline to report a rate.
+The same skew confounds section 6's recurrence result in the flattering direction. Multi-target techniques are largely techniques that were *pursued* across targets. We therefore report recurrence as an existence result (23 mechanisms demonstrably recur across more than one chain deployment) and explicitly decline to report a rate. Section 8.4 covers the separate and larger problem that a chain deployment is not an independent implementation.
 
 Two surfaces are effectively unexamined: `sync-state-import` and `control-plane` carry one classified technique each. Their populations say nothing about their exposure.
 
-## 8.4 Most of the registry is unclassified, and 232 records have no reference
+## 8.4 The registry records no implementation lineage, so recurrence is overstated by construction
+
+An instance records a chain, a primitive id, a bundle reference, a fidelity and a discovery origin. It does **not** record which networking stack the target embeds, and nothing in the schema distinguishes a chain that vendors libp2p from one that wrote its own transport.
+
+The consequence runs through section 6. Counting distinct chains as distinct implementations inflates every recurrence figure by an unknown factor, because a chain reaching a shared library through a dependency is recorded under its own name. Section 6.1.2 works the single case where the primitive naming happens to make the lineage legible: `NRDAX-T0100`'s nine chain deployments are four handshake stacks, three of them sharing go-ethereum's RLPx and four sharing libp2p's Noise. Earlier drafts of this paper presented those nine as nine independent implementations. They are not, and a reviewer familiar with the ecosystem would have seen it at once.
+
+We have corrected the headline case and cannot correct the corpus: for most techniques the primitive identifiers name no stack, so the analysis is not repeatable without new data. The reported figure of 16 techniques recurring "with no shared substrate recorded as a target" is therefore a statement about the target field and not about implementation independence, and section 6.1.1 now says so in those words.
+
+Adding a lineage or embedded-stack field to the instance schema is the remedy. It is straightforward, it is not done, and until it is, no recurrence count in this registry should be read as an independent-implementation count.
+
+## 8.5 Most of the registry is unclassified, and 232 records have no reference
 
 Of 420 published techniques, **97 carry a mechanism family and 323 do not**. The taxonomy this paper presents covers 23% of the registry.
 
@@ -38,13 +48,13 @@ Separately, **232 of 420 techniques carry no external reference at all**. That g
 
 We report the unclassified count rather than closing it by mapping the producing pipeline's coarse labels onto mechanism families, because that map would be mechanical and, for the surface-defined labels, silently wrong. But "we declined to guess" is not the same as "we know", and a reader should treat the 323 as unindexed rather than as classified-elsewhere.
 
-## 8.5 The `first_seen` field will not support a temporal claim
+## 8.6 The `first_seen` field will not support a temporal claim
 
 **330 of 420 techniques carry a January-1 date**, and 191 carry exactly `2020-01-01`. These are placeholders from the import path, not disclosure dates.
 
 The problem is much smaller on the classified slice (16 of 97), but registry-wide the field is not fit for temporal analysis. No claim in this paper depends on it, and we state the defect explicitly rather than quietly avoiding the subject, because a reviewer querying the API finds it in a minute. Anyone wanting a timeline for this class should use the CVE and GHSA references, which carry real dates, and not the registry's own `first_seen`.
 
-## 8.6 The classification is one team's judgement, unreviewed
+## 8.7 The classification is one team's judgement, unreviewed
 
 The mechanism assignments in section 3 were made by the same team that produced the reproductions, reading each technique's own recorded mechanism text. There has been **no external review, no second-rater exercise, and no inter-rater agreement measurement.**
 
@@ -54,7 +64,7 @@ The obvious next step is exactly that exercise, and it has not been done. We pub
 
 Related, and honestly a symptom of the same thing: **13 of the 97 techniques could not be resolved to a single family** and carry a dual marking, because no reproduction measured which resource binds first. Rule 7 of the assignment procedure records the tie rather than breaking it, which we believe is the right choice, but 13% unresolved is a real rate.
 
-## 8.7 Five families may be the wrong number
+## 8.8 Five families may be the wrong number
 
 The taxonomy has five mechanism families over 97 techniques. Section 3.7 reports that this replaced a 13-label scheme that mixed three axes, and the reduction is a genuine improvement in coherence. It is not evidence that five is right.
 
@@ -62,7 +72,7 @@ Two specific risks. First, `memory_amp` holds 33 techniques, a third of the corp
 
 A corpus five times the size would very likely need more families, and the honest expectation is that this taxonomy will need revision rather than extension. The identifier design makes that cheap (section 4.1) and the migration reported in section 3.7 is a demonstration that it can be done without breaking citations, but the reader should expect it to happen.
 
-## 8.8 No DOI, and a single-team, single-pipeline provenance
+## 8.9 No DOI, and a single-team, single-pipeline provenance
 
 **No DOI has been minted.** The registry is versioned (v0.2) and every identifier resolves, but there is no archival deposit, so a citation cannot currently be pinned to an immutable artefact independent of the serving infrastructure. Entry pages carry a cite block with the version and URL, which is weaker than what a citing author should ideally have.
 
@@ -70,7 +80,7 @@ The static feed artefacts described in section 4.4 (`registry.jsonl`, per-techni
 
 All reproductions come from one pipeline operated by one team. There is no independent replication of any instance in the corpus. The determinism guarantees in section 5.5 mean a reader can verify that the registry consistently reports what it reports; they do not mean anyone outside this team has verified that a reproduction does what its bundle says.
 
-## 8.9 No detection capability is claimed
+## 8.10 No detection capability is claimed
 
 This paper makes no claim that attacks in this class can be reliably detected, and nothing in it should be cited as evidence that they can.
 
@@ -78,7 +88,7 @@ A companion line of work applied machine learning to detecting attacks in this c
 
 The relationship between the two is worth stating plainly, because it would be easy to imply a stronger one. A mechanism-defined taxonomy is a prerequisite for asking well-posed detection questions - it gives you a label set whose members are supposed to share observable structure. It is not a demonstration that detectors built on that label set work. On current evidence, one did not.
 
-## 8.10 Scope boundaries are judgement calls at the margin
+## 8.11 Scope boundaries are judgement calls at the margin
 
 Section 2.2's exclusions are firm in the centre and negotiable at the edge. The 14 techniques tombstoned in section 3.7 were reproduced, published node-implementation defects that we subsequently judged out of class; another team could reasonably have kept several. `NRDAX-T0411` (a SIGHASH_SINGLE validation gap) is a defect in a node implementation reachable by a remote party, and we excluded it because its harm is consensus divergence rather than node loss. That is a defensible line and it is a line, not a fact.
 

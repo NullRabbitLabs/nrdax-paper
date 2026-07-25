@@ -46,15 +46,24 @@ What survives is still worth stating, and it is a different claim: **the same me
 
 It also has a sharper defensive reading than the inflated version did. Where recurrence is stack-level, the fix is stack-level: patching libp2p's Noise handshake protects every embedder at once, and the registry's job is to say which mechanism affects which stack, not to imply nine independent bugs where there are four.
 
-### 6.1.3 Why we cannot do this corpus-wide
+### 6.1.3 What the registry now records, and what it still does not
 
-The stack analysis above was done by hand, reading the primitive identifiers. **The registry does not record implementation lineage.** An instance carries a chain, a primitive id, a bundle reference, a fidelity and a discovery origin; nothing states which networking stack the target embeds. The primitive naming convention happens to make `NRDAX-T0100` legible, and does not for most techniques: of `NRDAX-T0205`'s nine instances, seven carry primitive ids that name no stack at all.
+The stack analysis above is no longer a hand calculation in a paper. The registry carries lineage as data: each instance may record the stack it exercised, and a separate curated table declares which stacks share the code that matters, with a written rationale per row. The independence count is derived from the two and served on every technique.
 
-So we can report a corrected figure for the headline case and we cannot report one for the corpus. The honest position is:
+Two rules keep the derived figure honest, and they are enforced rather than intended:
 
-- **23 techniques recur across more than one chain deployment.** This is measured and stands.
-- **The number that recur across independent protocol stacks is unknown and is smaller than 23.** For the one case we worked, nine deployments reduced to four stacks.
-- Adding a lineage field to the instance schema is the obvious remedy and has not been done. Section 8 records it.
+- **an unknown lineage never counts as independent**, and
+- **where anything is unknown the figure is published as a lower bound** with an upper bound beside it, assuming each unknown instance turns out to be its own new group.
+
+Coverage is the limit, and it is severe. Of 226 instances, 9 carry curated lineage - `NRDAX-T0100`'s, which is why that case can be stated exactly. A further 64 carry a lineage *proposed* by pattern-matching the primitive identifier; those are marked `inferred` and count toward nothing until a human confirms each against its bundle, because treating an inference as a fact is the mistake that produced the mixed family taxonomy. The remaining 153 record no stack at all.
+
+So the position is now:
+
+- **23 techniques recur across more than one chain deployment.** Measured, and it stands.
+- **`NRDAX-T0100` recurs across four independent stacks.** Curated, derived, and served.
+- **For every other multi-target technique the independence count is a lower bound**, usually zero, with an upper bound equal to its deployment count. `NRDAX-T0205` reports "at least 0, at most 9" rather than 9, which is the honest reading of nine uncurated instances.
+
+The remedy is no longer a schema change but a curation queue, and the registry now says exactly how long it is.
 
 The strongest individual cases by deployment count, with the same caveat applying to every row:
 

@@ -28,17 +28,19 @@ The same skew confounds section 6's recurrence result in the flattering directio
 
 Two surfaces are effectively unexamined: `sync-state-import` and `control-plane` carry one classified technique each. Their populations say nothing about their exposure.
 
-## 8.4 The registry records no implementation lineage, so recurrence is overstated by construction
+## 8.4 Lineage is recorded but barely populated, so independence is a lower bound
 
-An instance records a chain, a primitive id, a bundle reference, a fidelity and a discovery origin. It does **not** record which networking stack the target embeds, and nothing in the schema distinguishes a chain that vendors libp2p from one that wrote its own transport.
+An instance may now record the stack it exercised, and a curated table declares which stacks share code, so the registry can express the difference between a chain deployment and an independent implementation. That closes a schema gap. It does not close the evidence gap.
+
+**Nine of 226 instances carry curated lineage.** They are `NRDAX-T0100`'s, which is why that technique's four-stack result can be stated exactly and no other technique's can. A further 64 carry an inferred proposal that counts toward nothing until confirmed; 153 record no stack at all. Every technique other than `NRDAX-T0100` therefore reports an independence figure that is a lower bound, and usually a lower bound of zero.
+
+The consequence for reading this paper is unchanged even though the mechanism for fixing it now exists: **no recurrence count here may be read as an independent-implementation count**, except the one that is curated.
 
 The consequence runs through section 6. Counting distinct chains as distinct implementations inflates every recurrence figure by an unknown factor, because a chain reaching a shared library through a dependency is recorded under its own name. Section 6.1.2 works the single case where the primitive naming happens to make the lineage legible: `NRDAX-T0100`'s nine chain deployments are four handshake stacks, three of them sharing go-ethereum's RLPx and four sharing libp2p's Noise. Earlier drafts of this paper presented those nine as nine independent implementations. They are not, and a reviewer familiar with the ecosystem would have seen it at once.
 
 We have corrected the headline case and cannot correct the corpus: for most techniques the primitive identifiers name no stack, so the analysis is not repeatable without new data. The reported figure of 16 techniques recurring "with no shared substrate recorded as a target" is therefore a statement about the target field and not about implementation independence, and section 6.1.1 now says so in those words.
 
-Adding a lineage field to the instance schema is the remedy, and it is specified rather than merely gestured at: the instance records which stack it exercised, a separate curated table groups stacks that share the relevant code, and the independence count is derived from the two. Where lineage is unknown the derived figure is published as a lower bound with an upper bound beside it, so an unknown can never read as independence. The bootstrap is partial - 75 of 226 instances carry a primitive identifier naming a stack, and those are proposals requiring confirmation, not answers.
-
-It is not built. Until it is, no recurrence count in this registry should be read as an independent-implementation count.
+The remaining work is curation, not engineering: roughly 90 instances covering the 23 multi-target techniques, which are the only ones where independence changes a claim. Until that is done the registry reports what it knows and marks the rest unknown, which is the correct behaviour and not a substitute for the evidence.
 
 ## 8.5 Most of the registry is unclassified, and 232 records have no reference
 

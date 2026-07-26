@@ -66,4 +66,4 @@ Used consistently throughout, and defined against the registry's own model in se
 
 **Surface.** Where the attacker's input enters the node. An attribute, never a family; section 3.2.4 says why.
 
-**Reproduced** and **known**. A reproduced technique has at least one instance captured in a controlled environment. A known technique is recorded from a public advisory with no reproduction on file. The distinction governs what may be claimed about a technique and, in this registry, whether it may be classified at all: 97 techniques are classified, 323 are not, and the boundary between those two numbers is reproduction (section 3.5).
+**Reproduced** and **known**. A reproduced technique has at least one instance captured in a controlled environment. A known technique is recorded from a public advisory with no reproduction on file. The distinction governs what may be claimed about a technique and, in this registry, whether it may be classified at all: 97 techniques are classified, 324 are not, and the boundary between those two numbers is reproduction (section 3.5).

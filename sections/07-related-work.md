@@ -2,6 +2,35 @@
 
 The claim this section supports is narrow: for the network-boundary and node-resource class defined in section 2, there is no existing structured index that classifies by mechanism. The frameworks that exist are either at a different layer, in an adjacent domain, or organised on a different axis. We take each in turn, and where a measurement is available we give it rather than asserting the gap.
 
+## 7.0 The positioning in one table
+
+Each row is developed in the sections below; the table is the compressed form.
+"Unit classified" is the question each framework answers, and it is where the
+differences actually live.
+
+| | Persistent ids | Unit classified | Cross-implementation transfer | Machine-readable registry |
+|---|---|---|---|---|
+| **CVE** | yes | an implementation, at a version | none by design | yes |
+| **CWE** | yes | a defect class | the defect transfers; the attack's reachability does not | yes |
+| **MITRE ATT&CK** | yes | organisational impact | not at this granularity: 5 values for this whole class | yes |
+| **MITRE AADAPT** | yes | digital-asset system behaviour | within its own domain | yes |
+| **Nearest DoS survey taxonomy** | no | architectural layer | not addressed | no |
+| **NRDAX** | yes | the mechanism: (resource, bound failure) | **existence proof, two cases** | yes |
+
+The last cell is the one to read carefully, and it is deliberately not a tick.
+Section 6.1.4 reports two techniques found because the mechanism had already been
+characterised elsewhere. That is an existence proof that the audit questions can
+transfer, not a demonstration that they do so reliably, and we have no rate.
+Section 6.1.2 is the reason for the caution: nine chain deployments of a single
+technique reduced, on inspection, to four independently written stacks, so even
+the recurrence that motivates the transfer claim is smaller than the raw counts
+suggest.
+
+A framework offering "no" or "none by design" in a column is not deficient there.
+CVE deliberately identifies implementations and would be worse if it tried to
+generalise; ATT&CK's granularity is correct for the question it answers. The
+table shows where the questions differ, not a ranking.
+
 ## 7.1 MITRE ATT&CK: a different layer
 
 ATT&CK is the reference model for adversary behaviour against enterprise, cloud, ICS and mobile environments, organised as tactics (the adversary's objective) and techniques (how the objective is achieved) \cite{mitre-attack}.
@@ -18,12 +47,12 @@ AADAPT (Adversarial Actions in Digital Asset Payment Technologies) is MITRE's AT
 
 NRDAX carries an AADAPT crosswalk as first-class data, pinned to an immutable source revision (`cd6a74ca`, retrieved 2025-10-31), served at `/v1/aadapt`, and populated conservatively: a specific AADAPT technique where the match is exact, a parent where the record is a general instance of it, and null where no honest equivalent exists. Crosswalks are never fabricated to fill the column.
 
-The result, read from the live registry on 2026-07-24:
+The result, computed from the pinned snapshot of 2026-07-26:
 
 | | |
 |---|---:|
 | AADAPT techniques with any NRDAX mapping | 12 |
-| NRDAX techniques with an AADAPT mapping | 27 of 420 |
+| NRDAX techniques with an AADAPT mapping | 27 of 421 |
 | of those, tombstoned as out of NRDAX scope | 16 |
 | of those, still in scope | 11 |
 | **Classified NRDAX techniques with an AADAPT mapping** | **0 of 97** |

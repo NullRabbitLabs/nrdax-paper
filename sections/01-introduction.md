@@ -26,15 +26,46 @@ So the symptom is catalogued per project, the defect is catalogued per weakness 
 
 ## 1.2 Contributions
 
-**A mechanism-defined classification.** We define a mechanism as a pair: the resource the node spends disproportionately, and the way its bound on that resource failed to apply. Five resource classes and five bound-failure modes. The resource axis names the families and the bound-failure axis is a second attribute recorded within them, so the taxonomy is five families over a 5x5 mechanism grid, not twenty-five. The family names the resource and the cell is the mechanism proper; section 3.2 is explicit about which claims are family-level and which are cell-level. Each bound-failure mode states a concrete audit question, which a technique inherits and which is phrased to be askable of a codebase that has never been examined. Whether asking it actually finds anything is demonstrated in two cases and not established as a rate. Section 3.
+1. **A model of mechanism as a pair.** We define an attack in this class by the
+   resource the node spends disproportionately and the way its bound on that
+   resource failed to apply. Neither half alone is predictive: the resource is
+   the symptom and the bound failure is the defect class CWE already indexes.
+   Section 3.2, with the derivation and its limits in section 3.2.5.
 
-The distinction from symptom-based grouping is load-bearing rather than rhetorical, and section 3.7 puts a number on it. We applied the criteria to a corpus of 97 reproduced techniques that had been published under a 13-label scheme assembled operationally. Forty changed family. Twenty-two turned out to share a mechanism the old vocabulary had no name for, scattered across seven labels. Six labels turned out not to be mechanisms at all - three named an entry surface, three named a bypassed guard. Fourteen records turned out to be outside the class entirely. That reclassification is now live in the registry, which is why this paper can be checked against it.
+2. **A classification over that model.** Five resource classes name the
+   families, five bound-failure modes are recorded within them, and a mechanism
+   is a cell of the resulting grid rather than a family. Eleven of the twenty-five
+   cells are populated. Each bound-failure mode states an audit question phrased
+   to be askable of a codebase we have not examined. Section 3.3.
 
-**A reproduction-grounded corpus.** A technique is classified only if it has been reproduced in a controlled environment with captured evidence. Of 420 published techniques, 118 carry a reproduced instance and 97 carry a mechanism family, the 21-technique difference being 14 tombstoned as out of class and 7 reproduced but not yet classified (section 4.3). The 97 carry 199 instances across 37 targets. The 323 without a family are served with an explicit `pending` state and no inferred family, because the alternative - mapping coarse labels onto mechanisms mechanically - is how the scheme we replaced went wrong in the first place. Section 5.
+3. **Its application to a real corpus, reported with what it got wrong.**
+   Applied to 97 reproduced techniques previously published under a thirteen-label
+   scheme, it moved 40 of them: 22 into a mechanism the old vocabulary could not
+   name, 6 out of surface-defined families, 2 out of guard-defined ones, 1 out of
+   a surface-qualified singleton, and 9 corrected within the resource axis.
+   Fourteen further records proved to be outside the declared class and were
+   tombstoned. Section 3.7.
 
-**Permanent identifiers and machine surfaces.** `NRDAX-Tnnnn` identifiers are opaque, stable and never reused, with family as an attribute rather than a component. This is what let 40 techniques change family without breaking a citation. The registry serves JSON, STIX 2.1 and JSON-LD, and is designed to be ingested rather than read. Section 4.
+4. **An identifier scheme in which family is an attribute.** `NRDAX-Tnnnn` is
+   opaque, stable and never reused, and the classification rides alongside the
+   technique rather than inside its identity. That is what let 40 techniques
+   change family without breaking a citation. Section 4.
 
-**Evidence that the classification does work.** Twenty-three mechanisms recur across more than one chain deployment, and one mechanism cell accounts for exposure across 18 distinct targets - a grouping invisible before the reclassification, because its six members sat in four different families. Working the headline case by hand, `NRDAX-T0100` reaches nine chain deployments over four independently written handshake stacks; the registry records no implementation lineage, so chain counts overstate independence and we say so rather than banking the larger number. Section 6.
+5. **A registry, a crosswalk and the datasets behind both.** The corpus is served
+   as JSON, STIX 2.1 and JSON-LD with an OpenAPI description generated from the
+   serving code; a MITRE AADAPT crosswalk pinned to an immutable source revision
+   is published as data, and shares zero techniques with the classified corpus.
+   The per-technique assignment and the registry snapshot every figure was
+   computed from ship with this paper. Sections 4.4, 7.2 and 9.
+
+We state the limits of each in section 1.3 and at length in section 8. In
+particular, contribution 2's audit questions are demonstrated to transfer in two
+cases and are not established as a general property, and contribution 3 is one
+team's unreviewed judgement.
+
+**Scale and evidence.** Of 421 published techniques, 118 carry a reproduced instance and 97 carry a mechanism family; the 21-technique difference is 14 tombstoned as out of class and 7 reproduced but not yet classified (section 4.3). The 97 rest on 199 instances across 37 targets. The 324 without a family are served with an explicit `pending` state and no inferred value, because the alternative - mapping coarse labels onto mechanisms mechanically - is how the scheme we replaced went wrong.
+
+As evidence that the classification does work, 23 mechanisms recur across more than one chain deployment, and one mechanism cell accounts for exposure across 18 distinct targets, a grouping invisible before the reclassification because its six members sat in four different families. Working the headline case by hand, `NRDAX-T0100` reaches nine chain deployments over four independently written handshake stacks; the registry records no implementation lineage for most instances, so chain counts overstate independence and we report the smaller number.
 
 ## 1.3 What this paper does not claim
 

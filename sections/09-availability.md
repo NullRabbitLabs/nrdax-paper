@@ -1,6 +1,6 @@
 # 9. Availability
 
-Every URL below was checked on 2026-07-24. Figures quoted in this paper are from the registry as served on that date, at registry version **v0.2**.
+Every URL below was checked on 2026-07-26. Figures quoted in this paper are computed from the pinned snapshot taken that day, at registry version **v0.2**. The registry is increment-only, so a live read will show a larger total than the paper states.
 
 ## 9.1 The registry
 
@@ -46,7 +46,7 @@ curl 'https://api.nrdax.com/v1/aadapt?limit=500'
 
 Classified techniques are those with `classification: "curated"`. Note that this is a narrower set than "reproduced": 118 techniques carry at least one instance, 104 of those are in scope (the figure the public dashboard shows as "reproduced"), and 97 of those carry a mechanism family. Section 4.3 reconciles the three counts. The mechanism family is `family`, the producing pipeline's own label is `producer_family`, and the two are never merged. The section 6 chain-versus-substrate split treats `quic`, `http2`, `http3`, `libp2p` and `ipfs` as shared substrates, of which four appear in the classified corpus - IPFS reaches the registry only through `NRDAX-T0050`, which is tombstoned - and every other target as a chain deployment. Note "deployment", not "independent implementation": section 6.1.2 and section 8.4 explain why the registry cannot currently support the stronger reading.
 
-The per-technique mechanism assignment underlying section 3, including the notes recording why a technique was moved from its producer label, is published with this paper as `data/mechanism-audit.csv` and `data/classification.py`, alongside the registry snapshot the figures were computed from (`data/registry-snapshot-2026-07-24.json`). A reader disagreeing with a specific assignment can raise it against an identifier.
+The per-technique mechanism assignment underlying section 3, including the notes recording why a technique was moved from its producer label, is published with this paper as `data/mechanism-audit.csv` and `data/classification.py`, alongside the registry snapshot the figures were computed from (`data/registry-snapshot-2026-07-26.json`, with the AADAPT crosswalk in `data/aadapt-crosswalk-2026-07-26.json`). A reader disagreeing with a specific assignment can raise it against an identifier.
 
 ## 9.4 Client library
 

@@ -1,6 +1,6 @@
 # 5. Corpus and method
 
-All figures read from the live registry on 2026-07-24.
+All figures computed from the pinned snapshot of 2026-07-26.
 
 ## 5.1 How a technique enters the registry
 
@@ -13,6 +13,8 @@ The path from a candidate to a published, classified technique has four steps.
 **3. Evidence capture.** The reproduction emits a bundle: the protocol-level capture, the observed effect on the target, and controlled-vocabulary provenance fields. The bundle is referenced from the instance by `bundle_ref`, so a published claim can be traced to the artefact that produced it.
 
 **4. Instance recording, then classification.** The instance is recorded against its target with its fidelity and discovery origin. The mechanism is then read off the reproduction - what was exhausted, and which bound failed to apply - and the technique is assigned a family, surface and bound-failure mode by the procedure in section 3.4.
+
+![How a technique enters the registry](../figures/fig3-pipeline.svg)
 
 The registry is increment-only and the write path is gated. Public submissions are accepted into a quarantined store and never appear in any published surface until an admin-gated promotion appends them; a submission is invisible to `/techniques`, the feed, STIX, the coverage matrix and the dashboard while under review.
 
@@ -62,7 +64,7 @@ The 14 original-research techniques are a small fraction, and we do not build an
 
 ## 5.4 What the corpus covers
 
-**420 published techniques**, of which 118 carry at least one reproduced instance and 97 carry a mechanism family. The two counts differ by 21: 14 reproduced techniques are tombstoned as out of class (section 2.2), and 7 are reproduced, in scope, and not yet classified. Section 4.3 sets out the full reconciliation, and section 8.4 treats the 7 as a limitation.
+**421 published techniques**, of which 118 carry at least one reproduced instance and 97 carry a mechanism family. The two counts differ by 21: 14 reproduced techniques are tombstoned as out of class (section 2.2), and 7 are reproduced, in scope, and not yet classified. Section 4.3 sets out the full reconciliation, and section 8.4 treats the 7 as a limitation.
 
 The public dashboard's "reproduced" counter shows 104, which is 118 less the 14 tombstoned: it counts in-scope reproduced techniques, whereas this paper's headline 97 counts classified ones. Both are correct for what they measure.
 
@@ -108,3 +110,84 @@ Distinct from the reproducibility of the attacks, and worth stating because it a
 Every emitted artefact is deterministic: the same registry state produces byte-identical output, with ordering fixed by identifier rather than by row or map iteration order. The static feed, per-technique JSON, STIX export and coverage matrix are all golden-tested against a seeded fixture. Validation happens at the read boundary: a malformed published entry fails the whole build with a located error rather than yielding a partial registry, so no partially-validated state reaches a served surface.
 
 A reader who fetches the corpus twice and diffs it sees only real change. A reader who fetches it at a stated registry version can pin exactly what they cite, subject to the DOI caveat in section 4.5.
+
+## 5.6 One technique, end to end
+
+Abstractions about pipelines are easier to write than to check. This is a single
+technique traced through every stage, with the awkward parts left in.
+
+**`NRDAX-T0205`, "Pre-Handshake Crypto CPU Burn".**
+
+**Found.** Not from an advisory. Source review of Bitcoin Core's BIP-324 v2
+transport showed that a 64-byte inbound `ellswift` key triggers a secp256k1
+`ellswift` ECDH and an HKDF-SHA256 before any authentication or rate limit
+applies, with only the soft 125-inbound connection cap gating it. Eight of the
+nine instances are recorded `original-research`; the ninth is not, and is
+discussed below.
+
+**Reproduced.** The attack was delivered over a real network stack against a real
+build, in a controlled environment, and the effect observed. The reproduction
+artefact is `btc_bip324_prehandshake_ecdh_cpu`, and its captured evidence is
+referenced from the instance by `bundle_ref`. Fidelity `lab`, which is the
+ceiling for everything in this corpus (section 5.2).
+
+**Mechanism extracted.** Read off the reproduction rather than the advisory
+text, because there was no advisory. What is exhausted is CPU, so the resource
+class is computation. Why the node's bound did not apply is the more useful half:
+a limit exists and is enforced *after* the cost is paid. That is `late`, and the
+audit question it carries is *what work happens before the first check that could
+reject the input?* The pair (`compute_amp`, `late`) is the technique's cell; the
+family it appears under is `compute_amp`, and `p2p-gossip` is recorded as the
+surface without deciding either.
+
+**Identified.** `NRDAX-T0205` was minted and has not changed meaning since. The
+identifier encodes nothing: not the family, not the chain, not the year. When the
+reclassification moved 40 techniques between families, this one's citation was
+unaffected because family is an attribute rather than a component of the
+identifier (section 4.1).
+
+**Generalised.** The audit question was then asked of other implementations,
+which is the taxonomy doing the work it exists for. Eight more instances
+followed: Cosmos (`cometbft_mconn_handshake_burn`), Conflux, XRP, Casper, ICON,
+Qtum, Polygon PoS, and libp2p. Each is a separate instance with its own
+primitive, bundle and target; none is a separate technique, because the mechanism
+is the same.
+
+**Cross-referenced.** Four instances carry vendor-advisory links straight to the
+implementing source: Bitcoin Core's `bip324.cpp`, CometBFT's
+`secret_connection.go` at v0.38.22, `rippled`, and Qtum. The Cosmos instance
+additionally carries a research brief. The libp2p instance is the one exception
+to the discovery origin above: it reproduces `GHSA-876p-8259-xjgg`, an oversized
+RSA key burning CPU in go-libp2p, and is recorded `reverse-engineered-cve`
+accordingly. The registry states the provenance per instance rather than per
+technique for exactly this reason.
+
+**In the coverage matrix.** Nine cells across nine targets, each recording `lab`
+as the strongest evidence available. Together with `NRDAX-T0100` and
+`NRDAX-T0206` it forms the (`compute_amp`, `late`) cell, whose members span 18
+targets between them and which was invisible under the previous scheme because
+those three sat in two different families (section 6.1).
+
+### 5.6.1 What the trace exposes
+
+Three weaknesses are visible in this single record, and none of them is
+incidental.
+
+**Its `first_seen` is `2022-01-01`**, which is a placeholder, not a discovery
+date. Section 8.6 reports that 331 of 421 techniques carry a January-1 date and
+that the field will not support a temporal claim. Here is one of them.
+
+**Its lineage is entirely uncurated.** The registry reports `independent_stacks:
+0` with an upper bound of 9 and `unknown_instances: 9`. Nine deployments, and we
+cannot presently say how many distinct handshake implementations they represent -
+Bitcoin Core and Qtum almost certainly share one, since Qtum derives from Bitcoin
+Core. The honest reading is "at least 0, at most 9", and the registry prints it
+that way rather than implying nine (sections 6.1.3 and 8.4).
+
+**Its mechanism text is written from one instance.** The stored description names
+BIP-324, `ellswift` and Bitcoin Core specifically, even though the technique
+spans nine targets and the CometBFT and XRP instances exercise different
+handshakes reaching the same defect. The field should state the mechanism
+implementation-independently and instead reads as a description of the first
+instance found. That is a data-quality defect in the corpus, not in the
+classification, and it is one we have not fixed.

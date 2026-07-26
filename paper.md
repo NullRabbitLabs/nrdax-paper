@@ -2,9 +2,9 @@
 
 **Author**: Simon Morley, NullRabbit
 
-**Status**: working draft, 2026-07-24
+**Status**: working draft, 2026-07-26
 
-**Registry version**: v0.2, read 2026-07-24
+**Registry version**: v0.2, snapshot 2026-07-26
 
 ---
 
@@ -14,9 +14,9 @@ Node implementations of decentralised protocols face a class of attack that is w
 
 We present NRDAX, a chain-agnostic registry that classifies by mechanism, where a mechanism is a pair: **the resource the node spends disproportionately, and the way its bound on that resource failed to apply**. The two axes are not symmetric in how they are used: the five resource classes name the families and the five bound-failure modes are a second attribute within them, so a family is a row of the 5x5 grid and a mechanism is a cell. The family is the navigation unit; the cell is what predicts exposure elsewhere, and the recurrence results below are cell-level. Each bound-failure mode states a concrete audit question, phrased to be askable of a codebase we have not examined. We do not claim that transfer is demonstrated: section 6.1.4 reports two cases where a technique was found because the mechanism had already been characterised elsewhere, which is an existence proof and not a rate. The distinction from symptom-based grouping is measurable rather than rhetorical: applying these criteria to 97 reproduced techniques previously published under a 13-label scheme moved 40 of them. Twenty-two shared a mechanism the old vocabulary had no name for, scattered across seven labels; six labels turned out not to be mechanisms at all, three naming an entry surface and three a bypassed guard; and fourteen records fell outside the class entirely and were tombstoned. That reclassification is live, so every figure in this paper can be checked against the running registry.
 
-Classification is gated on reproduction, though the gate is one-directional: of 420 published techniques 118 carry a reproduced instance and only 97 carry a mechanism family. Those 97 rest on 199 instances across 37 targets; the wider reproduced set of 118 reaches 38, the extra one being IPFS on a technique we tombstoned. Of the 21 reproduced techniques without a family, 14 are tombstoned as out of class and 7 are simply not classified yet.
+Classification is gated on reproduction, though the gate is one-directional: of 421 published techniques 118 carry a reproduced instance and only 97 carry a mechanism family. Those 97 rest on 199 instances across 37 targets; the wider reproduced set of 118 reaches 38, the extra one being IPFS on a technique we tombstoned. Of the 21 reproduced techniques without a family, 14 are tombstoned as out of class and 7 are simply not classified yet.
 
-The 323 techniques with no mechanism family are served `family: null` with an explicit state and no inferred value, and they are not one population: 285 are known but never reproduced, 31 are tombstoned as outside the class, and 7 are reproduced, in scope and unassigned. Only the last two groups can be read as work outstanding, and only the 7 as work we could do today - a tombstoned technique will never carry a mechanism family, because it is outside what the taxonomy classifies. Identifiers are opaque, stable and never reused, with family as an attribute rather than a component, which is what allowed 40 techniques to change family without breaking a citation. The registry is served as JSON, STIX 2.1 and JSON-LD, designed to be ingested rather than read.
+The 324 techniques with no mechanism family are served `family: null` with an explicit state and no inferred value, and they are not one population: 286 are known but never reproduced, 31 are tombstoned as outside the class, and 7 are reproduced, in scope and unassigned. Only the last two groups can be read as work outstanding, and only the 7 as work we could do today - a tombstoned technique will never carry a mechanism family, because it is outside what the taxonomy classifies. Identifiers are opaque, stable and never reused, with family as an attribute rather than a component, which is what allowed 40 techniques to change family without breaking a citation. The registry is served as JSON, STIX 2.1 and JSON-LD, designed to be ingested rather than read.
 
 As evidence that the classification does work, 23 mechanisms recur across more than one chain deployment, and a single mechanism cell - (`compute_amp`, `late`) - accounts for exposure across eighteen targets, a grouping that was invisible before the reclassification because its six members sat in four different families.
 
@@ -37,16 +37,19 @@ We state the limits directly. The corpus is lab fidelity (198 of 199 instances);
 7. [Related work and positioning](sections/07-related-work.md)
 8. [Limitations](sections/08-limitations.md)
 9. [Availability](sections/09-availability.md)
+10. [Conclusion](sections/10-conclusion.md)
 
 References: [bibliography.bib](bibliography.bib)
 
-Supporting data: [`data/`](data/) - the per-technique mechanism assignment (`mechanism-audit.csv`, `classification.py`) and the registry snapshot the figures were computed from (`registry-snapshot-2026-07-24.json`).
+Figures: [`figures/`](figures/), generated from the pinned snapshot by `data/make_figures.py`, so a figure cannot drift from the text.
+
+Supporting data: [`data/`](data/) - the first-pass audit (`mechanism-audit.py`, `mechanism-audit.csv`), the final per-technique assignment (`classification.py`), and the registry snapshot and AADAPT crosswalk every figure was computed from (`registry-snapshot-2026-07-26.json`, `aadapt-crosswalk-2026-07-26.json`). The two audit files are also the record of how the axes were derived; see section 3.2.5.
 
 ---
 
 ## Reproducing the figures
 
-Every number in this paper derives from two requests against the live registry:
+Every number in this paper is computed from the pinned snapshot in `data/`, taken with these two requests. The registry is increment-only, so a live read will show a larger total than the paper states; the snapshot is what the figures describe.
 
 ```
 curl 'https://api.nrdax.com/v1/techniques?limit=500'

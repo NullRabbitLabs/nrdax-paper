@@ -1,6 +1,6 @@
 # 8. Limitations
 
-Every figure below is from the live registry on 2026-07-24 and can be checked there. We have tried to state each limitation at the strength it actually has, rather than in the softened form that would be easier to publish.
+Every figure below is computed from the pinned snapshot of 2026-07-26 in `data/` and can be checked against the live API. We have tried to state each limitation at the strength it actually has, rather than in the softened form that would be easier to publish.
 
 ## 8.1 The corpus is lab fidelity, not production
 
@@ -44,19 +44,19 @@ The remaining work is curation, not engineering: roughly 90 instances covering t
 
 ## 8.5 Most of the registry is unclassified, and 232 records have no reference
 
-Of 420 published techniques, **97 carry a mechanism family and 323 do not**. The taxonomy this paper presents covers 23% of the registry.
+Of 421 published techniques, **97 carry a mechanism family and 324 do not**. The taxonomy this paper presents covers 23% of the registry.
 
-Most of that gap is want of evidence: 302 of the 323 have no reproduced instance, so there is no mechanism to read. But **7 of them do have a reproduced instance, are in scope, and are simply not classified yet** (`NRDAX-T0009`, `NRDAX-T0096`, `NRDAX-T0110`, `NRDAX-T0111`, `NRDAX-T0332`, `NRDAX-T0338`, `NRDAX-T0381`). They arrived carrying one of the producing pipeline's coarse class labels rather than a fine-grained one, so they fell outside the slice the reclassification examined. That is an oversight in our procedure rather than a limit on the evidence, and it is the one gap in this paper that could be closed immediately.
+Most of that gap is want of evidence: 303 of the 324 have no reproduced instance, so there is no mechanism to read. But **7 of them do have a reproduced instance, are in scope, and are simply not classified yet** (`NRDAX-T0009`, `NRDAX-T0096`, `NRDAX-T0110`, `NRDAX-T0111`, `NRDAX-T0332`, `NRDAX-T0338`, `NRDAX-T0381`). They arrived carrying one of the producing pipeline's coarse class labels rather than a fine-grained one, so they fell outside the slice the reclassification examined. That is an oversight in our procedure rather than a limit on the evidence, and it is the one gap in this paper that could be closed immediately.
 
-A reviewer will ask why it was not. The reason is that every figure in this paper is read from a single registry state, 2026-07-24 at version v0.2, and stated so that it can be re-read there. Classifying the 7 mid-draft would have moved the counts in sections 3, 5 and 6 away from anything a reader could verify, for a gain of seven techniques. We would rather publish a checkable 97 with a named gap than an unverifiable 104. The 7 are the first item of work after this draft, and the identifiers are listed so that anyone can confirm the gap has closed.
+A reviewer will ask why it was not. The reason is that every figure in this paper is computed from a single pinned registry snapshot, 2026-07-26 at version v0.2, published in `data/` so it can be recomputed exactly. Classifying the 7 mid-draft would have moved the counts in sections 3, 5 and 6 away from anything a reader could verify, for a gain of seven techniques. We would rather publish a checkable 97 with a named gap than an unverifiable 104. The 7 are the first item of work after this draft, and the identifiers are listed so that anyone can confirm the gap has closed.
 
-Separately, **232 of 420 techniques carry no external reference at all**. That gap is heavily concentrated in the unreproduced slice: 215 of the 323 pending techniques have no reference, against 17 of the 97 classified ones. A known-but-not-reproduced technique with no reference on file is a weak record - it asserts that a defect exists without a resolvable pointer to the disclosure that motivated it - and there are a lot of them.
+Separately, **232 of 421 techniques carry no external reference at all**. That gap is heavily concentrated in the unreproduced slice: 215 of the 324 pending techniques have no reference, against 17 of the 97 classified ones. A known-but-not-reproduced technique with no reference on file is a weak record - it asserts that a defect exists without a resolvable pointer to the disclosure that motivated it - and there are a lot of them.
 
-We report the unclassified count rather than closing it by mapping the producing pipeline's coarse labels onto mechanism families, because that map would be mechanical and, for the surface-defined labels, silently wrong. But "we declined to guess" is not the same as "we know", and a reader should treat the 323 as unindexed rather than as classified-elsewhere.
+We report the unclassified count rather than closing it by mapping the producing pipeline's coarse labels onto mechanism families, because that map would be mechanical and, for the surface-defined labels, silently wrong. But "we declined to guess" is not the same as "we know", and a reader should treat the 324 as unindexed rather than as classified-elsewhere.
 
 ## 8.6 The `first_seen` field will not support a temporal claim
 
-**330 of 420 techniques carry a January-1 date**, and 191 carry exactly `2020-01-01`. These are placeholders from the import path, not disclosure dates.
+**331 of 421 techniques carry a January-1 date**, and 191 carry exactly `2020-01-01`. These are placeholders from the import path, not disclosure dates.
 
 The problem is much smaller on the classified slice (16 of 97), but registry-wide the field is not fit for temporal analysis. No claim in this paper depends on it, and we state the defect explicitly rather than quietly avoiding the subject, because a reviewer querying the API finds it in a minute. Anyone wanting a timeline for this class should use the CVE and GHSA references, which carry real dates, and not the registry's own `first_seen`.
 

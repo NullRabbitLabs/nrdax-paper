@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" width="760" height="340" font-family="Georgia,serif"><rect width="760" height="340" fill="#fcfcfb"/>
+<text x="0" y="22" font-size="15" font-weight="bold" fill="#0b0b0b">Figure 2. Technique, instance, primitive</text>
+<text x="0" y="42" font-size="11.5" fill="#52514e">The three levels kept separate, and what each one carries.</text>
+<rect x="0" y="72" width="188" height="76" rx="6" fill="#256abf" stroke="#d8d7d2"/>
+<text x="94" y="102" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">TECHNIQUE</text>
+<text x="94" y="122" font-size="10.5" fill="#ffffff" text-anchor="middle" opacity="0.85">97 classified</text>
+<text x="206" y="94" font-size="11.5" fill="#0b0b0b" font-family="monospace">NRDAX-T0205</text>
+<text x="206" y="114" font-size="11" fill="#52514e">The mechanism, stated without reference to any implementation.</text>
+<text x="206" y="132" font-size="11" fill="#52514e">Carries the permanent identifier, the family and the bound-failure mode.</text>
+<rect x="0" y="168" width="188" height="76" rx="6" fill="#6da7ec" stroke="#d8d7d2"/>
+<text x="94" y="198" font-size="13" font-weight="bold" fill="#0b0b0b" text-anchor="middle">INSTANCE</text>
+<text x="94" y="218" font-size="10.5" fill="#0b0b0b" text-anchor="middle" opacity="0.85">199 on classified techniques</text>
+<text x="206" y="190" font-size="11.5" fill="#0b0b0b" font-family="monospace">NRDAX-T0205 on Cosmos</text>
+<text x="206" y="210" font-size="11" fill="#52514e">One occurrence against one of 37 targets, with fidelity and discovery origin.</text>
+<text x="206" y="228" font-size="11" fill="#52514e">Where a CVE attaches, because a CVE is a property of an implementation.</text>
+<rect x="0" y="264" width="188" height="76" rx="6" fill="#cde2fb" stroke="#d8d7d2"/>
+<text x="94" y="294" font-size="13" font-weight="bold" fill="#0b0b0b" text-anchor="middle">PRIMITIVE</text>
+<text x="94" y="314" font-size="10.5" fill="#0b0b0b" text-anchor="middle" opacity="0.85">the reproduction artefact</text>
+<text x="206" y="286" font-size="11.5" fill="#0b0b0b" font-family="monospace">cometbft_mconn_handshake_burn</text>
+<text x="206" y="306" font-size="11" fill="#52514e">The executable reproduction and its captured evidence bundle.</text>
+<text x="206" y="324" font-size="11" fill="#52514e">Also the key the lineage record uses, because it survives republication.</text>
+<path d="M94 148 L94 168" stroke="#52514e" stroke-width="2" marker-end="url(#a)"/>
+<path d="M94 244 L94 264" stroke="#52514e" stroke-width="2" marker-end="url(#a)"/>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7 z" fill="#52514e"/></marker></defs>
+<text x="0" y="326" font-size="11" fill="#52514e">Splitting the three is what lets one mechanism carry evidence from many targets without collapsing into unrelated records.</text>
+</svg>

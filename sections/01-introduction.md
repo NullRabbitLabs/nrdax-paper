@@ -63,7 +63,7 @@ particular, contribution 2's audit questions are demonstrated to transfer in two
 cases and are not established as a general property, and contribution 3 is one
 team's unreviewed judgement.
 
-**Scale and evidence.** Of 421 published techniques, 118 carry a reproduced instance and 97 carry a mechanism family; the 21-technique difference is 14 tombstoned as out of class and 7 reproduced but not yet classified (section 4.3). The 97 rest on 199 instances across 37 targets. The 324 without a family are served with an explicit `pending` state and no inferred value, because the alternative - mapping coarse labels onto mechanisms mechanically - is how the scheme we replaced went wrong.
+**Scale and evidence.** Of 420 published techniques, 118 carry a reproduced instance and 97 carry a mechanism family; the 21-technique difference is 14 tombstoned as out of class and 7 reproduced but not yet classified (section 4.3). The 97 rest on 199 instances across 37 targets. The 323 without a family are served with an explicit `pending` state and no inferred value, because the alternative - mapping coarse labels onto mechanisms mechanically - is how the scheme we replaced went wrong.
 
 As evidence that the classification does work, 23 mechanisms recur across more than one chain deployment, and one mechanism cell accounts for exposure across 18 distinct targets, a grouping invisible before the reclassification because its six members sat in four different families. Working the headline case by hand, `NRDAX-T0100` reaches nine chain deployments over four independently written handshake stacks; the registry records no implementation lineage for most instances, so chain counts overstate independence and we report the smaller number.
 

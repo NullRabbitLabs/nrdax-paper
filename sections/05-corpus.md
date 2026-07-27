@@ -1,6 +1,6 @@
 # 5. Corpus and method
 
-All figures computed from the pinned snapshot of 2026-07-26.
+All figures computed from the pinned snapshot of 2026-07-24.
 
 ## 5.1 How a technique enters the registry
 
@@ -64,7 +64,7 @@ The 14 original-research techniques are a small fraction, and we do not build an
 
 ## 5.4 What the corpus covers
 
-**421 published techniques**, of which 118 carry at least one reproduced instance and 97 carry a mechanism family. The two counts differ by 21: 14 reproduced techniques are tombstoned as out of class (section 2.2), and 7 are reproduced, in scope, and not yet classified. Section 4.3 sets out the full reconciliation, and section 8.4 treats the 7 as a limitation.
+**420 published techniques**, of which 118 carry at least one reproduced instance and 97 carry a mechanism family. The two counts differ by 21: 14 reproduced techniques are tombstoned as out of class (section 2.2), and 7 are reproduced, in scope, and not yet classified. Section 4.3 sets out the full reconciliation, and section 8.4 treats the 7 as a limitation.
 
 The public dashboard's "reproduced" counter shows 104, which is 118 less the 14 tombstoned: it counts in-scope reproduced techniques, whereas this paper's headline 97 counts classified ones. Both are correct for what they measure.
 
@@ -118,7 +118,7 @@ technique traced through every stage, with the awkward parts left in.
 
 **`NRDAX-T0205`, "Pre-Handshake Crypto CPU Burn".**
 
-**Found.** Not from an advisory. Source review of Bitcoin Core's BIP-324 v2
+**Found.** Not from an advisory. Source review of Bitcoin Core's BIP-323 v2
 transport showed that a 64-byte inbound `ellswift` key triggers a secp256k1
 `ellswift` ECDH and an HKDF-SHA256 before any authentication or rate limit
 applies, with only the soft 125-inbound connection cap gating it. Eight of the
@@ -174,7 +174,7 @@ Three weaknesses are visible in this single record, and none of them is
 incidental.
 
 **Its `first_seen` is `2022-01-01`**, which is a placeholder, not a discovery
-date. Section 8.6 reports that 331 of 421 techniques carry a January-1 date and
+date. Section 8.6 reports that 330 of 420 techniques carry a January-1 date and
 that the field will not support a temporal claim. Here is one of them.
 
 **Its lineage is entirely uncurated.** The registry reports `independent_stacks:
@@ -185,7 +185,7 @@ Core. The honest reading is "at least 0, at most 9", and the registry prints it
 that way rather than implying nine (sections 6.1.3 and 8.4).
 
 **Its mechanism text is written from one instance.** The stored description names
-BIP-324, `ellswift` and Bitcoin Core specifically, even though the technique
+BIP-323, `ellswift` and Bitcoin Core specifically, even though the technique
 spans nine targets and the CometBFT and XRP instances exercise different
 handshakes reaching the same defect. The field should state the mechanism
 implementation-independently and instead reads as a description of the first

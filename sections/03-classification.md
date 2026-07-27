@@ -1,6 +1,6 @@
 # 3. The classification
 
-All figures in this section were computed from the registry snapshot of 2026-07-26 published in `data/`, and can be re-read against the live API. Every technique cited is resolvable at `https://nrdax.com/techniques/<id>`.
+All figures in this section were computed from the registry snapshot of 2026-07-24 published in `data/`, and can be re-read against the live API. Every technique cited is resolvable at `https://nrdax.com/techniques/<id>`.
 
 ## 3.1 What a mechanism-defined family has to do
 
@@ -91,7 +91,7 @@ The registry enforces the one implication that holds between the axes: `fault_te
 
 Where the input arrives matters operationally: it determines who can reach the defect and what mitigations are available at the perimeter. The registry records it, as an attribute, over five values: **P2P and gossip** (50 techniques), **RPC and public API** (24), **consensus ingest** (21), **sync and state import** (1), and **control plane** (1).
 
-It is not the family axis, and the corpus shows why. `NRDAX-T0205` (Bitcoin Core BIP-324 v2 transport, unauthenticated `ellswift` ECDH plus HKDF-SHA256 before any rate limit), `NRDAX-T0100` (QUIC INITIAL flood driving per-handshake x25519 and ed25519 before any admission decision) and `NRDAX-T0206` (RLPx pre-auth packet flood) are one mechanism cell, (R2, B3): an unauthenticated peer forces asymmetric public-key work ahead of admission control. They arrive on different transports against different chains.
+It is not the family axis, and the corpus shows why. `NRDAX-T0205` (Bitcoin Core BIP-323 v2 transport, unauthenticated `ellswift` ECDH plus HKDF-SHA256 before any rate limit), `NRDAX-T0100` (QUIC INITIAL flood driving per-handshake x25519 and ed25519 before any admission decision) and `NRDAX-T0206` (RLPx pre-auth packet flood) are one mechanism cell, (R2, B3): an unauthenticated peer forces asymmetric public-key work ahead of admission control. They arrive on different transports against different chains.
 
 Before this classification the three were split across two families, because the labels in use mixed a mechanism axis with a surface axis. A reader who patched one had no reason to look for the others. They are now adjacent, and the audit question generalises to every handshake in the corpus. Section 3.7 gives the full account.
 
@@ -165,7 +165,7 @@ principled derivation and a stronger one than post-hoc fit.
 
 Five mechanism families, each a row of the (resource, bound failure) grid: a family fixes the resource and spans whatever bound-failure modes the corpus populates. The bound-failure modes listed against each family below are **the cells currently occupied, not a rule about which are possible**. B4 (mis-scoped) appears only under R3 in this corpus, but nothing forbids a mis-scoped bound on a retention resource; it simply has not been reproduced yet. `fault_termination` is the one genuine restriction, and it is definitional rather than empirical: R5 involves no accumulation, so B5 is the only mode available to it.
 
-Populations are from the pinned snapshot of 2026-07-26: 97 classified techniques.
+Populations are from the pinned snapshot of 2026-07-24: 97 classified techniques.
 
 ---
 
@@ -274,22 +274,22 @@ Where a technique satisfies more than one definition, the following rules decide
 
 ## 3.5 Coverage and what is not classified
 
-Of 421 published techniques, 97 carry a mechanism family and 324 do not. The registry serves the unclassified ones as `family: null` with `classification: "pending"`, and never infers a mechanism from any other field. The 324 divide into three groups, not two:
+Of 420 published techniques, 97 carry a mechanism family and 323 do not. The registry serves the unclassified ones as `family: null` with `classification: "pending"`, and never infers a mechanism from any other field. The 323 divide into three groups, not two:
 
 | | Techniques |
 |---|---:|
-| Known but not reproduced, in scope | 286 |
-| of those, with a CVE, GHSA or advisory reference on file | 93 |
+| Known but not reproduced, in scope | 285 |
+| of those, with a CVE, GHSA or advisory reference on file | 92 |
 | of those, with no reference on file at all | 193 |
 | Tombstoned as out of class (section 2.2) | 31 |
 | of those, reproduced | 14 |
 | of those, never reproduced | 17 |
 | **Reproduced, in scope, and not yet classified** | **7** |
-| **Total unclassified** | **324** |
+| **Total unclassified** | **323** |
 
-**The 286 are known but not reproduced.** They enter the registry from a public advisory naming a defect in a node implementation, with no reproduction on file. A mechanism is read off a reproduction: what a technique exhausts, and which bound failed, are observed during the reproduction and not restated from the advisory text. Without one there is no mechanism evidence to classify on, so these carry only the producing pipeline's coarse class (`network-p2p`, `network-rpc`, `consensus` and six others). The registry enforces the implication: a classification for a technique with no instance fails the build. This is what "grounded in reproduction rather than report" means operationally, and it is the reason the classified corpus is under a quarter of the published one.
+**The 285 are known but not reproduced.** They enter the registry from a public advisory naming a defect in a node implementation, with no reproduction on file. A mechanism is read off a reproduction: what a technique exhausts, and which bound failed, are observed during the reproduction and not restated from the advisory text. Without one there is no mechanism evidence to classify on, so these carry only the producing pipeline's coarse class (`network-p2p`, `network-rpc`, `consensus` and six others). The registry enforces the implication: a classification for a technique with no instance fails the build. This is what "grounded in reproduction rather than report" means operationally, and it is the reason the classified corpus is under a quarter of the published one.
 
-That 193 of the 286 carry no reference at all is a separate weakness, and section 8.4 treats it as one: a record asserting that a defect exists, without a resolvable pointer to the disclosure that motivated it, is a weak record.
+That 193 of the 285 carry no reference at all is a separate weakness, and section 8.4 treats it as one: a record asserting that a defect exists, without a resolvable pointer to the disclosure that motivated it, is a weak record.
 
 **The 31 are tombstoned**, and section 3.7 covers them. They carry no mechanism family because they are outside the class the taxonomy classifies, which is a category error rather than a gap.
 
@@ -301,7 +301,7 @@ The cause is procedural. Each arrived from the producing pipeline under a coarse
 
 The clearest illustration sits in adjacent identifiers. `NRDAX-T0112` (http2-rapid-reset-stream-exhaustion) is `memory_amp`. `NRDAX-T0111` (http2-rapid-reset-memory-exhaustion) is the same defect class against the same protocol and is unclassified, because one arrived under a fine-grained label and the other under `network-p2p`. A reader who opens two consecutive technique pages finds this, and should: it is an accurate picture of a registry whose classification is complete over the slice it examined and not over the corpus.
 
-We report it rather than quietly classifying the 7 into this paper's figures, because the figures throughout describe the pinned snapshot of 2026-07-26. Closing this gap is the first item of future work and requires no new evidence.
+We report it rather than quietly classifying the 7 into this paper's figures, because the figures throughout describe the pinned snapshot of 2026-07-24. Closing this gap is the first item of future work and requires no new evidence.
 
 We report the rest of the gap as a number rather than closing it by mapping the coarse classes onto mechanism families. Such a map would be mechanical and, for the surface-defined labels, silently wrong, which is the failure this classification exists to correct.
 

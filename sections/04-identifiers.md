@@ -32,24 +32,24 @@ The three-level split is what lets one mechanism carry evidence from nine target
 
 ## 4.3 Reproduced versus known
 
-The registry holds 421 published techniques. **118 have at least one reproduced instance**; 303 do not, being recorded from a public advisory naming a defect in a node implementation with no reproduction on file.
+The registry holds 420 published techniques. **118 have at least one reproduced instance**; 302 do not, being recorded from a public advisory naming a defect in a node implementation with no reproduction on file.
 
 Reproduction and classification are not the same count, and the difference matters enough to set out:
 
 | | Techniques |
 |---|---:|
-| Published | 421 |
+| Published | 420 |
 | With at least one reproduced instance | 118 |
 | of those, tombstoned as out of class (section 2.2) | 14 |
 | of those, in scope and reproduced | 104 |
 | of those, carrying a mechanism family | 97 |
 | of those, reproduced and in scope but not yet classified | 7 |
 
-The 14 in that table are the tombstoned techniques that were *reproduced*. Section 4.1 counts 31 tombstoned identifiers in total: the other 17 were never reproduced and so sit inside the 303 without an instance. Both figures are correct and they measure different things.
+The 14 in that table are the tombstoned techniques that were *reproduced*. Section 4.1 counts 31 tombstoned identifiers in total: the other 17 were never reproduced and so sit inside the 302 without an instance. Both figures are correct and they measure different things.
 
 The rule is one-directional: **classification requires reproduction, but not every reproduction is classified**. The registry enforces the implication it can - a classification for a technique with no instance fails the build - and reports the remainder as a gap rather than closing it.
 
-The 7 are the concrete backlog: `NRDAX-T0009`, `NRDAX-T0096`, `NRDAX-T0110`, `NRDAX-T0111`, `NRDAX-T0332`, `NRDAX-T0338` and `NRDAX-T0381`. Each has a reproduced instance and sits in scope, and each arrived carrying one of the producing pipeline's coarse class labels (`network-rpc`, `network-p2p`, `consensus`) rather than a fine-grained one, so it was never in the slice the reclassification examined. They are classifiable and not yet classified, which is a different and more embarrassing state than the 303 that cannot be classified for want of evidence.
+The 7 are the concrete backlog: `NRDAX-T0009`, `NRDAX-T0096`, `NRDAX-T0110`, `NRDAX-T0111`, `NRDAX-T0332`, `NRDAX-T0338` and `NRDAX-T0381`. Each has a reproduced instance and sits in scope, and each arrived carrying one of the producing pipeline's coarse class labels (`network-rpc`, `network-p2p`, `consensus`) rather than a fine-grained one, so it was never in the slice the reclassification examined. They are classifiable and not yet classified, which is a different and more embarrassing state than the 302 that cannot be classified for want of evidence.
 
 The distinction is not presentational. It governs three things.
 
@@ -57,7 +57,7 @@ The distinction is not presentational. It governs three things.
 
 **Whether it may be classified.** Only reproduced techniques carry a mechanism family, though as the table above shows the converse does not hold. What a technique exhausts, and which bound failed, are read off the reproduction; an advisory frequently states the symptom and the fix without stating either. The registry enforces this at the write boundary: a classification for a technique with no instance fails the build. A known technique is served `family: null` with `classification: "pending"`.
 
-**How the gap is reported.** The 324 unclassified techniques (303 unreproduced, 14 tombstoned, 7 reproduced-but-pending) are counted and published as a number (`unclassified` on the families endpoint), not filled in by inference from the producing pipeline's coarse labels. Such a map would be mechanical, and for the surface-defined labels it would be silently wrong - which is the failure section 3.7 describes. The registry states the gap rather than closing it plausibly.
+**How the gap is reported.** The 323 unclassified techniques (302 unreproduced, 14 tombstoned, 7 reproduced-but-pending) are counted and published as a number (`unclassified` on the families endpoint), not filled in by inference from the producing pipeline's coarse labels. Such a map would be mechanical, and for the surface-defined labels it would be silently wrong - which is the failure section 3.7 describes. The registry states the gap rather than closing it plausibly.
 
 We regard the ratio as the honest current state of the corpus, not as a target that has been met. Section 8 returns to it.
 

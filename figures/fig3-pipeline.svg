@@ -3,7 +3,7 @@
 <text x="0" y="42" font-size="11.5" fill="#52514e">Classification is gated on reproduction. The gate is one-directional: not every reproduction is classified.</text>
 <rect x="0" y="78" width="150" height="84" rx="6" fill="#9ec5f4" stroke="#d8d7d2"/>
 <text x="75.0" y="104" font-size="12" font-weight="bold" fill="#0b0b0b" text-anchor="middle">Candidate</text>
-<text x="75.0" y="134" font-size="20" font-weight="bold" fill="#0b0b0b" text-anchor="middle">421 published</text>
+<text x="75.0" y="134" font-size="20" font-weight="bold" fill="#0b0b0b" text-anchor="middle">420 published</text>
 <text x="75.0" y="182" font-size="10.5" fill="#52514e" text-anchor="middle">advisory, source review,</text>
 <text x="75.0" y="197" font-size="10.5" fill="#52514e" text-anchor="middle">or a prior mechanism</text>
 <path d="M156 120 L178 120" stroke="#52514e" stroke-width="2" marker-end="url(#b)"/>
@@ -31,5 +31,5 @@
 <text x="811.0" y="182" font-size="10.5" fill="#52514e" text-anchor="middle">permanent id, JSON,</text>
 <text x="811.0" y="197" font-size="10.5" fill="#52514e" text-anchor="middle">STIX, JSON-LD</text>
 <defs><marker id="b" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7 z" fill="#52514e"/></marker></defs>
-<text x="0" y="234" font-size="11" fill="#52514e">303 techniques are recorded from a public advisory with no reproduction, so no mechanism can be read and none is inferred.</text>
+<text x="0" y="234" font-size="11" fill="#52514e">302 techniques are recorded from a public advisory with no reproduction, so no mechanism can be read and none is inferred.</text>
 </svg>

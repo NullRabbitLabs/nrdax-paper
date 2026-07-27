@@ -47,12 +47,12 @@ AADAPT (Adversarial Actions in Digital Asset Payment Technologies) is MITRE's AT
 
 NRDAX carries an AADAPT crosswalk as first-class data, pinned to an immutable source revision (`cd6a74ca`, retrieved 2025-10-31), served at `/v1/aadapt`, and populated conservatively: a specific AADAPT technique where the match is exact, a parent where the record is a general instance of it, and null where no honest equivalent exists. Crosswalks are never fabricated to fill the column.
 
-The result, computed from the pinned snapshot of 2026-07-26:
+The result, computed from the pinned snapshot of 2026-07-24:
 
 | | |
 |---|---:|
 | AADAPT techniques with any NRDAX mapping | 12 |
-| NRDAX techniques with an AADAPT mapping | 27 of 421 |
+| NRDAX techniques with an AADAPT mapping | 27 of 420 |
 | of those, tombstoned as out of NRDAX scope | 16 |
 | of those, still in scope | 11 |
 | **Classified NRDAX techniques with an AADAPT mapping** | **0 of 97** |

@@ -1,7 +1,11 @@
-"""Generate the paper's figures from a registry snapshot.
+"""Generate the paper's figures from the committed data files.
 
-Reproducible by construction: every count is read from the snapshot, so a figure
-can never drift from the text. Run:  python3 data/make_figures.py <snapshot.json>
+Reproducible by construction and immune to the registry moving: the classification
+comes from `data/classification.py` (this paper's own per-technique assignment) and
+the corpus shape from the pinned snapshot. Both are committed, so a figure cannot
+drift from the text and re-running this on a later registry state changes nothing.
+
+Run:  python3 data/make_figures.py
 
 Output is hand-written SVG (no plotting dependency) so the figures are vector,
 diffable, and legible in print. Sequential magnitude uses one hue light-to-dark,
@@ -174,10 +178,31 @@ def fig_pipeline(techs, out: pathlib.Path) -> str:
     return f"pipeline: {len(allt)} -> {len(repro)} reproduced -> {len(cur)} classified"
 
 
+def load() -> list[dict]:
+    """Join the pinned snapshot with this paper's own classification assignment.
+
+    The snapshot predates the classification migration, which is deliberate: it is
+    the state the paper's numbers were verified against and it does not move. The
+    assignment lives in classification.py and is equally fixed."""
+    root = pathlib.Path(__file__).resolve().parent
+    techs = json.loads((root / "registry-snapshot-2026-07-24.json").read_text())["techniques"]
+    ns: dict = {}
+    exec((root / "classification.py").read_text(), ns)
+    assigned = {r[0]: r for r in ns["CLASSIFICATION"]}
+    tombstoned = {r[0] for r in ns["TOMBSTONE"]}
+    for t in techs:
+        row = assigned.get(t["id"])
+        t["classification"] = "curated" if row else "pending"
+        t["family"] = row[1] if row else None
+        t["surface"] = row[2] if row else None
+        t["bound_failure"] = row[3] if row else None
+        if t["id"] in tombstoned:
+            t["out_of_scope"] = True
+    return techs
+
+
 def main() -> None:
-    snap = pathlib.Path(sys.argv[1] if len(sys.argv) > 1
-                        else "data/registry-snapshot-2026-07-26.json")
-    techs = json.loads(snap.read_text())["techniques"]
+    techs = load()
     figs = pathlib.Path("figures"); figs.mkdir(exist_ok=True)
     print(fig_grid(techs, figs / "fig1-mechanism-grid.svg"))
     print(fig_hierarchy(techs, figs / "fig2-identifier-hierarchy.svg"))

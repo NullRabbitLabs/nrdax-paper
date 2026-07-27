@@ -21,6 +21,33 @@ Classified techniques are those with `classification: "curated"`. The mechanism 
 
 The registry is increment-only, so a live read will show a larger total than the paper states. The pinned snapshot is what the paper describes.
 
+## Reviewing it as one document
+
+The sections in `sections/` are the source of truth. To read or comment on the
+paper as a single document:
+
+```
+python3 build-review-doc.py --html    # review/paper-full.html
+python3 build-review-doc.py           # review/paper-full.md
+```
+
+Import the HTML into Google Docs (File > Open > Upload); it keeps headings,
+tables, blockquotes and inline code as real structure. Figures cannot be
+imported - they are SVG - and appear as labelled markers pointing back at
+`figures/`.
+
+**Comment in the document; do not round-trip it back.** The paper carries 28
+`\cite{}` commands, 130 table rows and figures referenced by path, and every
+number is verified against the pinned snapshot. A docx-to-markdown conversion
+mangles all three and buries real edits in formatting noise. Apply review
+comments to the section files instead.
+
+If edits do end up being made in the document, export it as markdown and diff
+against `review/paper-full.md` - the generator is deterministic, so the diff
+shows only what changed.
+
+`review/` is generated and gitignored.
+
 ## Status
 
 Working draft, 2026-07-24, against registry version v0.2, pinned to the snapshot in `data/`.

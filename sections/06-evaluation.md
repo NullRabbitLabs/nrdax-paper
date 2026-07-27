@@ -55,7 +55,7 @@ Two rules keep the derived figure honest, and they are enforced rather than inte
 - **an unknown lineage never counts as independent**, and
 - **where anything is unknown the figure is published as a lower bound** with an upper bound beside it, assuming each unknown instance turns out to be its own new group.
 
-Coverage is the limit, and it is severe. Of 226 instances, 9 carry curated lineage - `NRDAX-T0100`'s, which is why that case can be stated exactly. It is also the only one that can be: of the 23 multi-target techniques, `NRDAX-T0100` is the sole technique whose every instance names an implementation in its primitive identifier. Twelve name none. Section 8.4 sets out why that is a property of the record rather than of our effort. A further 64 carry a lineage *proposed* by pattern-matching the primitive identifier; those are marked `inferred` and count toward nothing until a human confirms each against its bundle, because treating an inference as a fact is the mistake that produced the mixed family taxonomy. The remaining 153 record no stack at all.
+Coverage is the limit, and it is severe. Of 226 instances, 9 carry curated lineage - `NRDAX-T0100`'s, which is why that case can be stated exactly. A further 64 carry a lineage *proposed* by pattern-matching the primitive identifier; those are marked `inferred` and count toward nothing until a human confirms each against its bundle, because treating an inference as a fact is the mistake that produced the mixed family taxonomy. The remaining 153 record no stack at all.
 
 So the position is now:
 
